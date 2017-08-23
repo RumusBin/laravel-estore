@@ -53,11 +53,19 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
+                                        @if(Auth::guard('admin'))
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                             Logout
                                         </a>
+                                        @else
+                                            <a href="{{ route('user.logout') }}"
+                                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                                Logout
+                                            </a>
+                                        @endif
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
