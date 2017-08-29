@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Mail;
 
 class RegisterController extends Controller
 {
@@ -58,7 +60,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Models\User
      */
     protected function create(array $data)
     {
@@ -67,5 +69,40 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    //create mail login confirmation
+
+    protected function register(Request $request)
+    {
+        $input = $request->all();
+        $validator = $this->validator($input);
+        if ($validator->passes()){
+            $data = $this->create($input)->toArray();
+
+            $data['confirmToken'] = str_random(25);
+            $user = User::find($data['id']);
+            $user->confirmToken = $data['confirmToken'];
+            $user->save();
+
+            Mail::send('mails.confirmation', $data, function($massage) use($data){
+                    $massage->to($data['email']);
+                    $massage->subject('Registration confirmation');
+            });
+            return redirect(route('login'))->with('status', 'Confirmation email has been sent. Please, check your email.');
+        }
+        return redirect(route('login'))->with('status', $validator->errors);
+    }
+
+    public function confirmation($token)
+    {
+        $user = User::where('confirmToken', $token)->first();
+        if(!is_null($user)){
+            $user->confirmed = 1;
+            $user->confirmToken = '';
+            $user->save();
+            return redirect(route('login'))->with('status', 'Your activation is completed');
+        }
+        return redirect(route('login'))->with('status', 'Something went wrong!!!');
     }
 }
