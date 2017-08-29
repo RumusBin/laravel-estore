@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/admin-page/', 'AdminController@index')->name('admin.dashboard');
 
 Auth::routes();
 Route::get('/users/confirmation/{token}', 'Auth\RegisterController@confirmation')->name('confirmation');
@@ -27,7 +28,7 @@ Route::prefix('admin')->group(function(){
     Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit');
     Route::get('/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
 
-    Route::get('/', 'AdminController@index')->name('admin.dashboard');
+
 
     //Password reset routs
 
@@ -35,6 +36,20 @@ Route::prefix('admin')->group(function(){
     Route::get('/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.request');
     Route::post('/password/reset', 'Auth\AdminResetPasswordController@reset');
     Route::get('/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
+
+        // admin resource routs
+    Route::resource('customers', 'Admin\CustomersController');
+    Route::resource('brands', 'Admin\BrandsController');
+    Route::resource('product-categories', 'Admin\ProductCategoriesController');
+    Route::resource('products', 'Admin\ProductsController');
+    Route::resource('users', 'Admin\UsersController');
+
+    Route::get('orders', [
+        'uses' => 'Admin\OrdersController@index',
+        'as' => 'orders.index',
+    ]);
+
+
 
 });
 
