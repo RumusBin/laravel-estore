@@ -6,7 +6,7 @@
  * Time: 11:20
  */
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Controllers\Controller;
@@ -28,6 +28,8 @@ class AdminForgotPasswordController extends Controller
    */
 
     use SendsPasswordResetEmails;
+
+    protected $redirectTo = 'admin.dashboard';
 
     /**
      * Create a new controller instance.

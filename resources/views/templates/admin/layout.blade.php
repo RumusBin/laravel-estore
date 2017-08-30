@@ -48,6 +48,7 @@
                         <div class="profile_pic">
                             <img src="{{asset('admin/images/img.jpg')}}" alt="..." class="img-circle profile_img">
                         </div>
+
                         <div class="profile_info">
                             <span>Welcome,</span>
                             <h2>{{Auth::user()->name}}</h2>
@@ -108,7 +109,8 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{asset('admin/images/img.jpg')}}" alt="">{{Auth::user()->name}}
+                                    <img src="{{asset('admin/images/img.jpg')}}" alt="">
+                                    {{Auth::user()->name}}
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
