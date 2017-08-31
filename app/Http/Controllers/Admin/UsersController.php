@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:admins');
+    }
     /**
      * Display a listing of the resource.
      *

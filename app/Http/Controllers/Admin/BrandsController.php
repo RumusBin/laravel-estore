@@ -9,6 +9,13 @@ use App\Models\Brand;
 class BrandsController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('permission:create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete', ['only' => ['show', 'delete']]);
+    }
+
 
     /**
      * Display a listing of the resource.
