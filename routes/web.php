@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
 Route::get('/admin-page', 'AdminController@index')->name('admin.dashboard');
 
 Auth::routes();
@@ -39,9 +42,6 @@ Route::group(['middleware'=>['auth:admin']], function(){
     Route::resource('products', 'Admin\ProductsController');
     Route::resource('users', 'Admin\UsersController');
 });
-
-
-
     Route::get('orders', [
         'uses' => 'Admin\OrdersController@index',
         'as' => 'orders.index',
