@@ -28,8 +28,8 @@
                             </tr>
                         </tfoot>
                         <tbody>
-                            @if(count($users))
-                            @foreach ($users as $row)
+                            @if(count($admins))
+                            @foreach ($admins as $row)
                             <tr>
                                 <td>{{$row->name}}</td>
                                 <td>{{$row->email}}</td>

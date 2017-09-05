@@ -89,8 +89,8 @@ class RegisterController extends Controller
             $user->save();
 
             Mail::send('mails.confirmation', $data, function($massage) use($data){
-                    $massage->to($data['email']);
-                    $massage->subject('Registration confirmation');
+                $massage->to($data['email']);
+                $massage->subject('Registration confirmation');
             });
             return redirect(route('login'))->with('status', 'Confirmation email has been sent. Please, check your email.');
         }

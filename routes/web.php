@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/admin-page', 'AdminController@index')->name('admin.dashboard');
 
 Auth::routes();
