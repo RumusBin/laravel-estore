@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{$app->getLocale()}}">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
@@ -30,6 +30,7 @@
     <link href="{{asset('admin/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('admin/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('admin/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('admin/css/main.css')}}" rel="stylesheet">
 </head>
 
 <body class="nav-md">
@@ -38,7 +39,7 @@
             <div class="col-md-3 left_col">
                 <div class="left_col scroll-view">
                     <div class="navbar nav_title" style="border: 0;">
-                        <a href="#" class="site_title"><i class="fa fa-paw"></i> <span>Larashop Admin!</span></a>
+                        <a href="#" class="site_title"><i class="fa fa-paw"></i> <span>E-Store Admin!</span></a>
                     </div>
 
                     <div class="clearfix"></div>
@@ -46,11 +47,11 @@
                     <!-- menu profile quick info -->
                     <div class="profile">
                         <div class="profile_pic">
-                            <img src="{{asset('admin/images/img.jpg')}}" alt="..." class="img-circle profile_img">
+                            <img src="{{asset('admin/images/user.png')}}" alt="..." class="img-circle profile_img">
                         </div>
 
                         <div class="profile_info">
-                            <span>Welcome,</span>
+                            <span>@lang('admin/header.welcome')</span>
                             <h2>{{Auth::user()->name}}</h2>
                         </div>
                     </div>
@@ -63,17 +64,18 @@
                         <div class="menu_section">
                             <h3>General</h3>
                             <ul class="nav side-menu">
-                                <li><a hef="#"><i class="fa fa-home"></i> Админка </a></li>
-                                <li><a><i class="fa fa-edit"></i> Products <span class="fa fa-chevron-down"></span></a>
+                                <li><a hef="#"><i class="fa fa-home"></i> @lang('admin/header.admin') </a></li>
+                                <li><a><i class="fa fa-edit"></i> @lang('admin/header.products') <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li><a href="{{route('brands.index')}}">Brands list</a></li>
-                                        <li><a href="{{route('product-categories.index')}}">Categories</a></li>
-                                        <li><a href="{{route('products.index')}}">Products list</a></li>
+                                        <li><a href="{{route('brands.index')}}">@lang('admin/header.brands')</a></li>
+                                        <li><a href="{{route('brands.rip')}}">@lang('admin/header.brands_del')</a></li>
+                                        <li><a href="{{route('product-categories.index')}}">@lang('admin/header.categories')</a></li>
+                                        <li><a href="{{route('products.index')}}">@lang('admin/header.prod_list')</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="{{route('customers.index')}}"><i class="fa fa-user"></i> Customers </a></li>
-                                <li><a href="{{route('orders.index')}}"><i class="fa fa-shopping-cart"></i> Orders </a></li>
-                                <li><a href="{{route('users.index')}}"><i class="fa fa-users"></i> Users </a></li>
+                                <li><a href="{{route('customers.index')}}"><i class="fa fa-user"></i> @lang('admin/header.customers') </a></li>
+                                <li><a href="{{route('orders.index')}}"><i class="fa fa-shopping-cart"></i> @lang('admin/header.orders') </a></li>
+                                <li><a href="{{route('users.index')}}"><i class="fa fa-users"></i> @lang('admin/header.managers') </a></li>
                             </ul>
                         </div>
                     </div>
@@ -109,7 +111,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{asset('admin/images/img.jpg')}}" alt="">
+                                    <img src="{{asset('admin/images/user.png')}}" alt="">
                                     {{Auth::user()->name}}
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
@@ -117,12 +119,15 @@
                                     <li><a href="#"> Profile</a></li>
                                     <li><a href="{{route('admin.logout')}}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                                 </ul>
+
                             </li>
 
 
                         </ul>
+
                     </nav>
                 </div>
+
             </div>
             <!-- /top navigation -->
 

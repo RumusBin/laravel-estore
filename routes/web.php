@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::get('/admin-page', 'AdminController@index')->name('admin.dashboard');
 
 Auth::routes();
@@ -36,12 +37,13 @@ Route::group(['prefix'=>'admin'], function(){
     Route::get('/password/reset/{token}', 'Admin\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
 
         // admin resource routs
-Route::group(['middleware'=>['auth:admin']], function(){
+Route::group(['middleware'=>['auth:admin'], ['SetLocale']], function(){
     Route::resource('customers', 'Admin\CustomersController');
     Route::resource('brands', 'Admin\BrandsController');
     Route::resource('product-categories', 'Admin\ProductCategoriesController');
     Route::resource('products', 'Admin\ProductsController');
     Route::resource('users', 'Admin\UsersController');
+    Route::get('/brandsRip', 'Admin\BrandsController@brandRip')->name('brands.rip');
 });
     Route::get('orders', [
         'uses' => 'Admin\OrdersController@index',
