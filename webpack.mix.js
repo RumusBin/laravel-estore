@@ -1,4 +1,7 @@
-let mix = require('laravel-mix');
+const { mix } = require('laravel-mix');
+const URL_SCRIPTS = 'resources/assets/js/';
+const URL_STYLES = 'resources/assets/sass/';
+
 
 /*
  |--------------------------------------------------------------------------
@@ -12,4 +15,6 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
+    .js('resources/assets/js/images_sc.js', 'public/js')
+    .js('resources/assets/js/bootstrap.js', 'public/js')
    .sass('resources/assets/sass/app.scss', 'public/css');

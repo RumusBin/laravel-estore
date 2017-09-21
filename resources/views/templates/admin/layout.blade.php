@@ -31,6 +31,8 @@
     <link href="{{asset('admin/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('admin/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('admin/css/main.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css" />
+
 </head>
 
 <body class="nav-md">
@@ -50,9 +52,11 @@
                             <img src="{{asset('admin/images/user.png')}}" alt="..." class="img-circle profile_img">
                         </div>
 
+
+
                         <div class="profile_info">
                             <span>@lang('admin/header.welcome')</span>
-                            <h2>{{Auth::user()->name}}</h2>
+                            <h2>{{Auth::user()->name}} </h2>
                         </div>
                     </div>
                     <!-- /menu profile quick info -->
@@ -107,6 +111,31 @@
                         <div class="nav toggle">
                             <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                         </div>
+                        <div class="langselect navbar-left">
+                            {!! Form::open(['method' => 'POST', 'route' => 'changelocale', 'class' => 'form-inline navbar-select']) !!}
+
+                            <div class="form-group @if($errors->first('locale')) has-error @endif">
+                                <span aria-hidden="true"><i class="fa fa-flag"></i></span>
+                                {!! Form::select(
+                                    'locale',
+                                    ['en' => 'EN', 'ru' => 'RU'],
+                                    App::getLocale(),
+                                    [
+                                        'id'       => 'locale',
+                                        'class'    => 'form-control',
+                                        'required' => 'required',
+                                        'onchange' => 'this.form.submit()',
+                                    ]
+                                ) !!}
+                                <small class="text-danger">{{ $errors->first('locale') }}</small>
+                            </div>
+
+                            <div class="btn-group pull-right sr-only">
+                                {!! Form::submit("Change", ['class' => 'btn btn-success']) !!}
+                            </div>
+
+                            {!! Form::close() !!}
+                        </div>
 
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
@@ -141,7 +170,7 @@
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                    Bootstrap Admin Template by <a href="#">RumusBin</a>
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -175,9 +204,9 @@
     <script src="{{asset('admin/js/jszip.min.js')}}"></script>
     <script src="{{asset('admin/js/pdfmake.min.js')}}"></script>
     <script src="{{asset('admin/js/vfs_fonts.js')}}"></script>
-
     <!-- Custom Theme Scripts -->
     <script src="{{asset('admin/js/custom.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.js"></script>
 
     <!-- Datatables -->
     <script>
@@ -259,6 +288,7 @@
             TableManageButtons.init();
         });
     </script>
+    @yield('scripts')
     <!-- /Datatables -->
 </body>
 </html>

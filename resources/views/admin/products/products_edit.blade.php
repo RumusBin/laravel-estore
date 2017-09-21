@@ -92,6 +92,40 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="images">Images<span class="required">*</span>
+                            </label>
+                            <div class="image-inner col-md-6 col-sm-6 col-xs-12">
+                                @if(count($images)>0)
+                                @foreach($images as $image)
+                                    <div class="img-item col-md-4">
+                                        <div class="img_overlay">
+                                                <div class="img_icon_reload">
+                                                    <input type="hidden" value="{{$image->id}}">
+                                                </div>
+                                                <div class="img_icon_delete">
+                                                    <input type="hidden" value="{{$image->id}}">
+                                                </div>
+                                        </div>
+                                        <img src="{{$image->image_path}}" alt="{{$product->product_name}}">
+
+                                    </div>
+                                @endforeach
+                                    @endif
+                            </div>
+                            <div class="form_inner">
+                                <form action="#" enctype="multipart/form-data">
+
+                                    <input type="hidden" value="">
+                                    <input type="file" name="new-img">
+
+                                    <button class="btn btn-success">Reload image</button>
+                                </form>
+                            </div>
+
+                        </div>
+
+
                         <div class="ln_solid"></div>
 
                         <div class="form-group">
@@ -108,3 +142,6 @@
     </div>
 </div>
 @stop
+@section('scripts')
+    <script src="{{asset('js/images_sc.js')}}"></script>
+    @endsection

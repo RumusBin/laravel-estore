@@ -35,7 +35,7 @@
                             <tr>
                                 <td>{{$row->name}}</td>
                                 <td>{{$row->description}}</td>
-                                <td><img class="tab_img" src="/images/brands/{{$row->image}}" alt=""></td>
+                                <td class="image-box"><img class="tab_img" src="/images/brands/{{$row->image}}" alt=""></td>
                                 <td>
                                     <a href="{{ route('brands.edit', ['id' => $row->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-pencil" title="Edit"></i> </a>
                                     <a href="{{ route('brands.show', ['id' => $row->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" data-id={{$row->id}} title="Delete"></i> </a>

@@ -41,9 +41,18 @@ Route::group(['middleware'=>['auth:admin'], ['SetLocale']], function(){
     Route::resource('customers', 'Admin\CustomersController');
     Route::resource('brands', 'Admin\BrandsController');
     Route::resource('product-categories', 'Admin\ProductCategoriesController');
+    // product image upload
+
+    Route::post('products/image-upload/{id}', 'Admin\ProductsController@newImagesUpload')->name('new-images-upload');
     Route::resource('products', 'Admin\ProductsController');
     Route::resource('users', 'Admin\UsersController');
     Route::get('/brandsRip', 'Admin\BrandsController@brandRip')->name('brands.rip');
+
+
+//    Route::post('image-upload', 'ProductController@imageUpload')->name('product-image-upload');
+
+    // language-selector route
+    Route::post('changelocale', 'LanguageController@changelocale')->name('changelocale');
 });
     Route::get('orders', [
         'uses' => 'Admin\OrdersController@index',

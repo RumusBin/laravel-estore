@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+//use Illuminate\Support\Facades\Mail;
+//use App\Mail\BrandCreate;
 
 class BrandsController extends Controller
 {
@@ -54,7 +57,7 @@ class BrandsController extends Controller
         ]);
         if($request->hasFile('image')){
             $image = $request->image;
-            $imageName = md5($request->image->getClientOriginalName()).'.jpg';
+            $imageName = md5($request->image->getClientOriginalName()).'.png';
             $image->move('images/brands', $imageName);
         }else {
             $imageName = 'no_image.png';
@@ -64,6 +67,8 @@ class BrandsController extends Controller
         $brand->image = $imageName;
         $brand->description = $request->description;
         $brand->save();
+
+//        Mail::to('bestbrandmarket@gmail.com')->send(new BrandCreate($brand));
 
         return redirect(route('brands.index'))->with('success', "The brand <strong>$brand->name</strong> has successfully been created.");
     }
@@ -130,7 +135,25 @@ class BrandsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try
+        {
+            $this->validate($request, [
+                'name' => 'required|unique:brands,name,'.$id,
+                'description' => 'required',
+            ]);
+            $brand = Brand::findOrFail($id);
+            $brand->name = $request->input('name');
+            $brand->description = $request->input('description');
+            $brand->save();
+            return redirect()->route('brands.index')->with('success', "The brand <strong>$brand->name</strong> has successfully been updated.");
+        }
+        catch (ModelNotFoundException $ex)
+        {
+            if ($ex instanceof ModelNotFoundException)
+            {
+                return response()->view('errors.'.'404');
+            }
+        }
     }
 
     /**

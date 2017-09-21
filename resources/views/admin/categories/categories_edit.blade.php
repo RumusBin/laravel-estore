@@ -12,7 +12,7 @@
                 </div>
                 <div class="x_content">
                     <br />
-                    <form method="post" action="{{ route('product-categories.update', ['id' => $category->id]) }}" data-parsley-validate class="form-horizontal form-label-left">
+                    <form method="post" action="{{ route('product-categories.update', ['id' => $category->id]) }}" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data">
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Category <span class="required">*</span>
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="description">Description <span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12 " for="description">Description <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input type="text" value="{{$category->description}}" id="description" name="description" class="form-control col-md-7 col-xs-12">
@@ -36,10 +36,23 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-lg-offset-4">
+                                <img class="image-box" src="/images/categories/{{$category->image}}" alt="inage-category-{{$category->id}}">
+                                <input type="file" value="{{ Request::old('image') ?: '' }}" id="image" name="image" class="">
+                                <input type="hidden" value="{{$category->image}}" name="old_image">
+                                @if ($errors->has('image'))
+                                    <span class="help-block">{{ $errors->first('image') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="ln_solid"></div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+
                                 <input type="hidden" name="_token" value="{{ Session::token() }}">
                                 <input name="_method" type="hidden" value="PUT">
                                 <button type="submit" class="btn btn-success">Save Category Changes</button>

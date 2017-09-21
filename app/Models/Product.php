@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 class Product extends Model
 {
     use SoftDeletes;
@@ -14,6 +15,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
+        'id',
         'product_code',
         'product_name',
         'image',
@@ -37,5 +39,10 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo('App\Models\Category','category_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany('App\Models\ProductsImages', 'product_id', 'id');
     }
 }

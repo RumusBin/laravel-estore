@@ -12,7 +12,7 @@
                 </div>
                 <div class="x_content">
                     <br />
-                    <form method="post" action="{{ route('products.store') }}" data-parsley-validate class="form-horizontal form-label-left">
+                    <form method="post" action="{{ route('products.store') }}" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data">
 
                         <div class="form-group{{ $errors->has('product_code') ? ' has-error' : '' }}">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product_code">Product Code <span class="required">*</span>
@@ -92,6 +92,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <span class="control-label col-md-3 col-sm-3 col-xs-12" >Images <span class="required">*</span>
+                            </span>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="file" name="images[]" class="form-control col-md-7 col-xs-12" multiple>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="ln_solid"></div>
 
                         <div class="form-group">
@@ -102,6 +112,7 @@
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>

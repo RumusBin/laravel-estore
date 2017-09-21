@@ -18,6 +18,7 @@
                                 <th>Code</th>
                                 <th>Name</th>
                                 <th>Description</th>
+                                <th>Image</th>
                                 <th>Price</th>
                                 <th>Brand</th>
                                 <th>Category</th>
@@ -29,6 +30,7 @@
                                 <th>Code</th>
                                 <th>Name</th>
                                 <th>Description</th>
+                                <th>Image</th>
                                 <th>Price</th>
                                 <th>Brand</th>
                                 <th>Category</th>
@@ -42,6 +44,7 @@
                                 <td>{{$row->product_code}}</td>
                                 <td>{{$row->product_name}}</td>
                                 <td>{{$row->description}}</td>
+                                <td>{{$row->image}}</td>
                                 <td>{{number_format($row->price,2)}}</td>
                                 <td>{{$row->brand->name}}</td>
                                 <td>{{$row->category->name}}</td>
