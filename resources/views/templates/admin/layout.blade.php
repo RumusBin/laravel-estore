@@ -291,7 +291,8 @@
         });
     </script>
     <script src="{{asset('js/images_sc.js')}}"></script>
-    @yield('scripts')
+    <script src="{{asset('plugins/ckeditor/ckeditor.js')}}"></script>
+    @yield('page_scripts')
     <!-- /Datatables -->
 </body>
 </html>

@@ -11,8 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//sites routes
+
+Route::namespace('Site')->group(function () {
+    Route::get('/', 'HomeController@index')->name('home');
 });
 
 

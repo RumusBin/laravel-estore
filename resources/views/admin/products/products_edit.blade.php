@@ -37,17 +37,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Product Description
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" value="{{$product->description}}" id="description" name="description" class="form-control col-md-7 col-xs-12">
-                                @if ($errors->has('description'))
-                                <span class="help-block">{{ $errors->first('description') }}</span>
-                                @endif
-                            </div>
-                        </div>
-
                         <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Price <span class="required">*</span>
                             </label>
@@ -118,8 +107,29 @@
                                     <img src="{{asset('images/add-image.png')}}" alt="add-image">
                                     <div class="clearfix"></div>
                                 </div>
+                                <div class="clearfix"></div>
                             </div>
                         </div>
+
+
+
+                         <div class="form-group">
+                             <span>Product description *</span>
+                         </div>
+
+                            <div class="form-group">
+                                {{--input CKE editor here--}}
+
+                                    <textarea id="description" name="description" rows="10" cols="80">
+                                            {!! $product->description !!}
+                                    </textarea>
+
+                                {{--<input type="text" value="{{$product->description}}" id="description" name="description" class="form-control col-md-7 col-xs-12">--}}
+                                @if ($errors->has('description'))
+                                    <span class="help-block">{{ $errors->first('description') }}</span>
+                                 @endif
+
+                            </div>
 
 
                         <div class="ln_solid"></div>
@@ -152,7 +162,11 @@
 </div>
 
 @stop
-@section('scripts')
-
+@section('page_scripts')
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace( 'description' );
+    </script>
 
     @endsection

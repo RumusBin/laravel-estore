@@ -1,6 +1,11 @@
 /*.tab_img{*/
     /*width: 200px;*/
 /*}*/
+
+.img_overlay{
+    display: none;
+}
+
 .image-box{
     width: 200px;
     text-align: center;
@@ -26,7 +31,7 @@ td:nth-child(4) {
     padding: 1px;
 }
 .img-item img{
-    width: 100%;
+    max-width: 200px;
     height: auto;
 
 }
