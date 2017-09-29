@@ -11,6 +11,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+                    <input type="hidden" id="_page_name" value="categories">
                     <br />
                     <form method="post" action="{{ route('product-categories.update', ['id' => $category->id]) }}" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data">
 
@@ -38,10 +39,18 @@
 
                         <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
 
-                            <div class="col-md-6 col-sm-6 col-xs-12 col-lg-offset-4">
-                                <img class="image-box" src="/images/categories/{{$category->image}}" alt="inage-category-{{$category->id}}">
-                                <input type="file" value="{{ Request::old('image') ?: '' }}" id="image" name="image" class="">
-                                <input type="hidden" value="{{$category->image}}" name="old_image">
+                            <div class="image-inner col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+
+                                <div class="img-item col-md-4">
+                                    <div class="img_overlay">
+                                        <div class="img_icon_reload" title="Image reload">
+                                            <input type="hidden" value="{{$category->id}}">
+                                        </div>
+                                    </div>
+                                    <img src="{{$category->image}}" alt="image-category-{{$category->id}}">
+                                    <input type="hidden" name="category_image" value="{{$category->image}}">
+                                </div>
+
                                 @if ($errors->has('image'))
                                     <span class="help-block">{{ $errors->first('image') }}</span>
                                 @endif
@@ -59,6 +68,21 @@
                             </div>
                         </div>
                     </form>
+
+
+                    <div class="form_inner">
+                        <form id="reload_img" name="form_reload" action="#" method="post" enctype="multipart/form-data">
+                            {{csrf_field()}}
+                            <div class="img-form-keeper">
+                                <img src="" alt="" id="upl_img">
+                            </div>
+
+                            <input type="file" name="img_new" id="img_new">
+                            <button type="button" id="inp_submit" name="btn_submit" class="btn btn-outline-success" >Reload img</button>>
+                        </form>
+                    </div>
+
+
                 </div>
             </div>
         </div>

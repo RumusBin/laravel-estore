@@ -11,6 +11,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+                    <input type="hidden" id="_page_name" value="products">
                     <br />
                     <form method="post" action="{{ route('products.update', ['id' => $product->id]) }}" data-parsley-validate class="form-horizontal form-label-left">
 
@@ -100,10 +101,10 @@
                                 @foreach($images as $image)
                                     <div class="img-item col-md-4">
                                         <div class="img_overlay">
-                                                <div class="img_icon_reload">
+                                                <div class="img_icon_reload" title="Image reload">
                                                     <input type="hidden" value="{{$image->id}}">
                                                 </div>
-                                                <div class="img_icon_delete">
+                                                <div class="img_icon_delete" title="Image delete">
                                                     <input type="hidden" value="{{$image->id}}">
                                                 </div>
                                         </div>
@@ -112,17 +113,12 @@
                                     </div>
                                 @endforeach
                                     @endif
+                                <div class="img-item col-md-4" id="new-img-add">
+                                    <input type="hidden" value="{{$product->id}}" name="product_id" id="item-img-id">
+                                    <img src="{{asset('images/add-image.png')}}" alt="add-image">
+                                    <div class="clearfix"></div>
+                                </div>
                             </div>
-                            <div class="form_inner">
-                                <form action="#" enctype="multipart/form-data">
-
-                                    <input type="hidden" value="">
-                                    <input type="file" name="new-img">
-
-                                    <button class="btn btn-success">Reload image</button>
-                                </form>
-                            </div>
-
                         </div>
 
 
@@ -135,13 +131,28 @@
                                 <button type="submit" class="btn btn-success">Save Product Changes</button>
                             </div>
                         </div>
+
                     </form>
+                    <div class="form_inner">
+                        <form id="reload_img" name="form_reload" action="#" method="post" enctype="multipart/form-data">
+                                {{csrf_field()}}
+                            <div class="img-form-keeper">
+                                <img src="" alt="" id="upl_img">
+                            </div>
+
+                            <input type="file" name="img_new" id="img_new">
+                            <button type="button" id="inp_submit" name="btn_submit" class="btn btn-outline-success" >Reload img</button>>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 @stop
 @section('scripts')
-    <script src="{{asset('js/images_sc.js')}}"></script>
+
+
     @endsection

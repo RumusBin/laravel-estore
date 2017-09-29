@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_token" content="{{ csrf_token() }}" />
 
     <title>{{$title or "Laravel Admin Panel"}}</title>
 
@@ -32,6 +33,7 @@
     <link href="{{asset('admin/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('admin/css/main.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css" />
+
 
 </head>
 
@@ -288,6 +290,7 @@
             TableManageButtons.init();
         });
     </script>
+    <script src="{{asset('js/images_sc.js')}}"></script>
     @yield('scripts')
     <!-- /Datatables -->
 </body>

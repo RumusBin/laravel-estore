@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use File;
 
 class ProductCategoriesController extends Controller
 {
@@ -45,14 +46,15 @@ class ProductCategoriesController extends Controller
         ]);
         if($request->hasFile('image')){
             $image = $request->image;
-            $imageName = md5($request->image->getClientOriginalName()).'.png';
+            $imageName = time() . '_' .$request->image->getClientOriginalName().'.png';
             $image->move('images/categories', $imageName);
+            $imagePath = '/images/categories/'.$imageName;
         }else {
-            $imageName = 'no_image.png';
+            $imagePath = '/images/categories/no_image.png';
         }
 
         $category->name = $request->name;
-        $category->image = $imageName;
+        $category->image = $imagePath;
         $category->description = $request->description;
         $category->save();
         return redirect(route('product-categories.index'))->with('success', "The category <strong>$category->name</strong> has successfully been created.");
@@ -127,18 +129,10 @@ class ProductCategoriesController extends Controller
                 'name' => 'required|unique:categories,name,'.$id,
                 'description' => 'required',
             ]);
-            
-            if($request->hasFile('image')){
-                $image = $request->image;
-                $imageName = md5($request->image->getClientOriginalName()).'.png';
-                $image->move('images/categories', $imageName);
-            }else {
-                $imageName = $request->old_image;
-            }
+
             $category = Category::findOrFail($id);
             $category->name = $request->input('name');
             $category->description = $request->input('description');
-            $category->image = $imageName;
             $category->save();
             return redirect()->route('product-categories.index')->with('success', "The product category <strong>Category</strong> has successfully been updated.");
         }
@@ -173,5 +167,30 @@ class ProductCategoriesController extends Controller
                 return response()->view('errors.'.'404');
             }
         }
+    }
+
+    public function imageReload(Request $request)
+    {
+
+        $categoryId = $request->input('itmId');
+
+        $category = Category::find($categoryId);
+
+        $oldFile = $category->image;
+
+        File::delete(public_path().$oldFile);
+
+        $newImage = $request->file('img_new');
+
+        if($newImage){
+            $imageName = time() . '_' . $newImage->getClientOriginalName();
+            $newImage->move('images/categories', $imageName);
+            $imagePath = '/images/categories/'.$imageName;
+            $category->image = $imagePath;
+            $category->save();
+        }
+
+        return $categoryId;
+
     }
 }

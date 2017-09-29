@@ -57,3 +57,34 @@ position: absolute;
     margin-top: -100px;
     margin-left: 100px;
 }
+
+.form_inner{
+    display: none;
+    background: rgba(27, 148, 189, 0.8);
+    width: 300px;
+    height: 320px;
+    position: relative;
+    z-index: 1100;
+    margin-top: -350px;
+    margin-left: 450px;
+    border-radius: 10px;
+
+}
+.form_inner .btn{
+    position: relative;
+    margin-top: 270px;
+    margin-left: 100px;
+}
+.form_inner input{
+    margin-top: 240px;
+    margin-left: 90px;
+    position: absolute;
+    z-index: 1200;
+}
+.img-form-keeper img{
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 50px;
+}

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use File;
 //use Illuminate\Support\Facades\Mail;
 //use App\Mail\BrandCreate;
 
@@ -142,7 +143,6 @@ class BrandsController extends Controller
                 'description' => 'required',
             ]);
             $brand = Brand::findOrFail($id);
-            $brand->name = $request->input('name');
             $brand->description = $request->input('description');
             $brand->save();
             return redirect()->route('brands.index')->with('success', "The brand <strong>$brand->name</strong> has successfully been updated.");
@@ -183,5 +183,30 @@ class BrandsController extends Controller
         $delBrands = Brand::onlyTrashed()->get();
 
         return view('admin.brands.brands_rip', ['delBrands'=>$delBrands]);
+    }
+
+    public function imageReload(Request $request)
+    {
+
+        $brandId = $request->input('itmId');
+
+        $brand = Brand::find($brandId);
+
+        $oldFile = $brand->image;
+
+        File::delete(public_path().$oldFile);
+
+        $newImage = $request->file('img_new');
+
+        if($newImage){
+            $imageName = time() . '_' . $newImage->getClientOriginalName();
+            $newImage->move('images/brands', $imageName);
+            $imagePath = '/images/brands/'.$imageName;
+            $brand->image = $imagePath;
+            $brand->save();
+        }
+
+        return $brandId;
+
     }
 }

@@ -17,4 +17,5 @@ const URL_STYLES = 'resources/assets/sass/';
 mix.js('resources/assets/js/app.js', 'public/js')
     .js('resources/assets/js/images_sc.js', 'public/js')
     .js('resources/assets/js/bootstrap.js', 'public/js')
+
    .sass('resources/assets/sass/app.scss', 'public/css');

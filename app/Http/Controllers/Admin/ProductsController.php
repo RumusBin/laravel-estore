@@ -10,6 +10,8 @@ use App\Models\Brand;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+use File;
+
 
 class ProductsController extends Controller
 {
@@ -211,8 +213,9 @@ class ProductsController extends Controller
         }
     }
 
-    public function newImagesUpload($productId, Request $request)
+    public function newImagesUpload($productId=false, Request $request)
     {
+        $image = new ProductsImages();
 
         try
         {
@@ -220,13 +223,11 @@ class ProductsController extends Controller
                 'file'=> 'mimes:jpeg,jpg,png'
             ]);
 
-            $image = new ProductsImages();
-
             $images = $request->file('file');
             if($images){
                 $imagesName = time() . '_' . $images->getClientOriginalName();
                 $images->move('images/products', $imagesName);
-                $imagePath = 'images/products/'.$imagesName;
+                $imagePath = '/images/products/'.$imagesName;
 
                 $image->image_path = $imagePath;
                 $image->product_id = $productId;
@@ -243,4 +244,68 @@ class ProductsController extends Controller
 
 
     }
+
+    public function imageReload(Request $request)
+    {
+
+        $id = $request->input('itmId');
+        $imgRow = ProductsImages::find($id);
+
+        $oldFile = $imgRow->image_path;
+
+        File::delete(public_path().$oldFile);
+
+        $newImage = $request->file('img_new');
+        if($newImage){
+            $imageName = time() . '_' . $newImage->getClientOriginalName();
+            $newImage->move('images/products', $imageName);
+            $imagePath = '/images/products/'.$imageName;
+            $imgRow->image_path = $imagePath;
+            $imgRow->save();
+        }
+
+
+     return  $request->file();
+    }
+
+    public function addNewImage(Request $request)
+    {
+        $image = new ProductsImages();
+
+
+            try {
+                $this->validate($request, [
+                    'file'=> 'mimes:jpeg,jpg,png'
+                ]);
+
+                if ($request->input('product_id')) {
+                    $productId = $request->input('product_id');
+                    $newImage = $request->file('img_new');
+                    $imageName = time() . '_' . $newImage->getClientOriginalName();
+                    $newImage->move('images/products', $imageName);
+                    $imagePath = '/images/products/' . $imageName;
+                    $image->image_path = $imagePath;
+                    $image->product_id = $productId;
+                    $image->save();
+                    return $imageName;
+                }
+            }catch(ModelNotFoundException $ex){
+                return response()->view('errors.'.'404');
+            }
+    }
+
+    public function deleteImage($id)
+    {
+
+        $image = ProductsImages::find($id);
+
+        $imgFile = $image->image_path;
+
+        File::delete(public_path().$imgFile);
+
+        $image->delete();
+
+        return "Done";
+    }
+
 }

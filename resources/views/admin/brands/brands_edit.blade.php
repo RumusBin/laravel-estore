@@ -11,6 +11,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
+                    <input type="hidden" id="_page_name" value="brands">
                     <br />
                     <form method="post" action="{{ route('brands.update', ['id' => $brand->id]) }}" data-parsley-validate class="form-horizontal form-label-left">
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
@@ -35,6 +36,26 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+
+                            <div class="image-inner col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+
+                                <div class="img-item col-md-4">
+                                    <div class="img_overlay">
+                                        <div class="img_icon_reload" title="Image reload">
+                                            <input type="hidden" value="{{$brand->id}}">
+                                        </div>
+                                    </div>
+                                    <img src="{{$brand->image}}" alt="image-category-{{$brand->id}}">
+                                    <input type="hidden" name="category_image" value="{{$brand->image}}">
+                                </div>
+
+                                @if ($errors->has('image'))
+                                    <span class="help-block">{{ $errors->first('image') }}</span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="ln_solid"></div>
 
                         <div class="form-group">
@@ -45,6 +66,20 @@
                             </div>
                         </div>
                     </form>
+
+                    <div class="form_inner">
+                        <form id="reload_img" name="form_reload" action="#" method="post" enctype="multipart/form-data">
+                            {{csrf_field()}}
+                            <div class="img-form-keeper">
+                                <img src="" alt="" id="upl_img">
+                            </div>
+
+                            <input type="file" name="img_new" id="img_new">
+                            <button type="button" id="inp_submit" name="btn_submit" class="btn btn-outline-success" >Reload img</button>>
+                        </form>
+                    </div>
+
+
                 </div>
             </div>
         </div>
