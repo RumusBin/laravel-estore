@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Cart;
 use App\Models\ProductsImages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -9,8 +10,8 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
 use File;
+use Illuminate\Support\Facades\Session;
 
 
 class ProductsController extends Controller
@@ -90,6 +91,10 @@ class ProductsController extends Controller
                        $imageModel->product_id = $product_id;
                        $imageModel->save();
             }
+            //the first of the downloaded pictures will be the main one
+            $firstImg = ProductsImages::where('product_id', '=',$product_id)->firstOrFail();
+            $firstImg->is_main = 1;
+            $firstImg->save();
         }
                 return redirect()->route('products.index')->with('success', "The product <strong>Product name</strong> has successfully been created.");
     }
@@ -201,6 +206,16 @@ class ProductsController extends Controller
         try
         {
             $product = Product::find($id);
+            // find all pictures of this product
+            $productImages = $product->images;
+
+            if($productImages){
+                //if the pictures are present, we go through each and delete from the database and from the server
+                foreach ($productImages as $image){
+                    File::delete(public_path().$image->image_path);
+                    $image->delete();
+                }
+            }
             $product->delete();
             return redirect()->route('products.index')->with('success', "The product <strong>$product->product_name</strong> has successfully been archived.");
         }
@@ -232,6 +247,7 @@ class ProductsController extends Controller
                 $image->image_path = $imagePath;
                 $image->product_id = $productId;
                 $image->save();
+
             }
 
         }catch (ModelNotFoundException $ex)
@@ -241,7 +257,6 @@ class ProductsController extends Controller
                 return response()->view('errors.'.'404');
             }
         }
-
 
     }
 
@@ -306,6 +321,16 @@ class ProductsController extends Controller
         $image->delete();
 
         return "Done";
+    }
+
+    public function addToCart(Request $request, $id)
+    {
+        $product = Product::find($id);
+        $oldCart = Session::has('cart')?Session::get('cart'):null;
+        $cart = new Cart($oldCart);
+        $cart->add($product, $product->id);
+        $request->session()->put('cart', $cart);
+        return redirect()->back();
     }
 
 }

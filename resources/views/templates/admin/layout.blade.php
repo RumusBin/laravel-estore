@@ -292,6 +292,7 @@
     </script>
     <script src="{{asset('js/images_sc.js')}}"></script>
     <script src="{{asset('plugins/ckeditor/ckeditor.js')}}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     @yield('page_scripts')
     <!-- /Datatables -->
 </body>

@@ -86,39 +86,63 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="images">Images<span class="required">*</span>
                             </label>
                             <div class="image-inner col-md-6 col-sm-6 col-xs-12">
+                                <ul id="img_galery" class="galleryContainer">
                                 @if(count($images)>0)
                                 @foreach($images as $image)
-                                    <div class="img-item col-md-4">
-                                        <div class="img_overlay">
-                                                <div class="img_icon_reload" title="Image reload">
-                                                    <input type="hidden" value="{{$image->id}}">
-                                                </div>
-                                                <div class="img_icon_delete" title="Image delete">
-                                                    <input type="hidden" value="{{$image->id}}">
-                                                </div>
-                                        </div>
-                                        <img src="{{$image->image_path}}" alt="{{$product->product_name}}">
 
-                                    </div>
+
+                                            @if($image->is_main == 1)
+                                                <li class="img-item col-md-4">
+
+                                                    <div class="img_overlay">
+                                                        <div class="img_icon_reload" title="Image reload">
+                                                            <input type="hidden" value="{{$image->id}}">
+                                                        </div>
+                                                        <div class="img_icon_delete" title="Image delete">
+                                                            <input type="hidden" value="{{$image->id}}">
+                                                        </div>
+                                                    </div>
+                                                    <span>Main image * </span>
+                                                    <div class="main_image">
+                                                        <img class="image" src="{{$image->image_path}}" alt="image_{{$product->product_name}}_main">
+                                                    </div>
+
+                                                </li>
+                                            @else
+                                                <li class="img-item col-md-4">
+
+                                                        <div class="img_overlay">
+                                                            <div class="img_icon_reload" title="Image reload">
+                                                                <input type="hidden" value="{{$image->id}}">
+                                                            </div>
+                                                            <div class="img_icon_delete" title="Image delete">
+                                                            <input type="hidden" value="{{$image->id}}">
+                                                            </div>
+                                                        </div>
+                                                        <img src="{{$image->image_path}}" class="image" alt="{{$product->product_name}}">
+
+                                                </li>
+                                            @endif
+
+
                                 @endforeach
                                     @endif
-                                <div class="img-item col-md-4" id="new-img-add">
-                                    <input type="hidden" value="{{$product->id}}" name="product_id" id="item-img-id">
-                                    <img src="{{asset('images/add-image.png')}}" alt="add-image">
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="clearfix"></div>
+                                    <li class="img-item col-md-4" id="new-img-add">
+                                        <input type="hidden" value="{{$product->id}}" name="product_id" id="item-img-id">
+                                        <img src="{{asset('images/add-image.png')}}" alt="add-image">
+
+                                    </li>
+                                </ul>
+
+
                             </div>
+                            <div class="clearfix"></div>
                         </div>
 
 
-
-                         <div class="form-group">
-                             <span>Product description *</span>
-                         </div>
-
                             <div class="form-group">
                                 {{--input CKE editor here--}}
+                                <span>Product description *</span>
 
                                     <textarea id="description" name="description" rows="10" cols="80">
                                             {!! $product->description !!}
@@ -162,11 +186,11 @@
 </div>
 
 @stop
-@section('page_scripts')
-    <script>
-        // Replace the <textarea id="editor1"> with a CKEditor
-        // instance, using default configuration.
-        CKEDITOR.replace( 'description' );
-    </script>
+    @section('page_scripts')
+        <script>
+            // Replace the <textarea id="editor1"> with a CKEditor
+            // instance, using default configuration.
+            CKEDITOR.replace( 'description' );
+        </script>
 
     @endsection

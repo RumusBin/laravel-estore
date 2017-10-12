@@ -1,7 +1,9 @@
 import * as $ from "jquery";
 
-var page_name = $('#_page_name').val();
+let page_name = $('#_page_name').val();
 
+let galleryContainer = $('.galleryContainer');
+console.log(galleryContainer);
 
 $(initImageHover);
 
@@ -13,7 +15,7 @@ $(function () {
 
 
 function initImageHover() {
-    $('div.img-item').hover(imgTitleFadeIn, imgTitleFadeOut);
+    $('li.img-item').hover(imgTitleFadeIn, imgTitleFadeOut);
 }
 
 function imgTitleFadeIn() {
@@ -142,6 +144,8 @@ $('#new-img-add').on('click',function (e) {
         })
 
 });
+
+
 
 
 

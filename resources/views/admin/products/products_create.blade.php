@@ -36,17 +36,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Product Description
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" value="{{ Request::old('description') ?: '' }}" id="description" name="description" class="form-control col-md-7 col-xs-12">
-                                @if ($errors->has('description'))
-                                <span class="help-block">{{ $errors->first('description') }}</span>
-                                @endif
-                            </div>
-                        </div>
-
                         <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Price <span class="required">*</span>
                             </label>
@@ -93,13 +82,33 @@
                         </div>
 
                         <div class="form-group">
+
                             <span class="control-label col-md-3 col-sm-3 col-xs-12" >Images <span class="required">*</span>
                             </span>
                             <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div id="img_new"></div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="file" name="images[]" class="form-control col-md-7 col-xs-12" multiple>
+                                    <input type="file" name="images[]" id="image_input" accept="jpg|jpeg|png" class="form-control col-md-7 col-xs-12" multiple>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span>Product description *</span>
+                        </div>
+
+                        <div class="form-group">
+                            {{--input CKE editor here--}}
+
+                            <textarea id="description" name="description" rows="10" cols="80">
+
+                                    </textarea>
+
+                            {{--<input type="text" value="{{$product->description}}" id="description" name="description" class="form-control col-md-7 col-xs-12">--}}
+                            @if ($errors->has('description'))
+                                <span class="help-block">{{ $errors->first('description') }}</span>
+                            @endif
+
                         </div>
 
                         <div class="ln_solid"></div>
@@ -118,3 +127,15 @@
     </div>
 </div>
 @stop
+
+@section('page_scripts')
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace( 'description' );
+    </script>
+    <script>
+
+    </script>
+
+@endsection

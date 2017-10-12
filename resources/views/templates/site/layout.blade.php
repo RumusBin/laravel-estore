@@ -6,10 +6,10 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
-    @yield('styles')
+    @include('templates.site.partials._styles')
 </head>
 <body>
         @yield('content')
-    @yield('scripts')
+    @include('templates.site.partials._scripts')
 </body>
 </html>

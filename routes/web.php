@@ -17,6 +17,8 @@ Route::namespace('Site')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
 });
 
+Route::get('addToCart/{id}', 'Admin\ProductsController@addToCart')->name('addToCart');
+
 
 Route::get('/admin-page', 'AdminController@index')->name('admin.dashboard');
 

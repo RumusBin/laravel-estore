@@ -10345,6 +10345,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 var page_name = __WEBPACK_IMPORTED_MODULE_0_jquery__('#_page_name').val();
 
+var galleryContainer = __WEBPACK_IMPORTED_MODULE_0_jquery__('.galleryContainer');
+console.log(galleryContainer);
+
 __WEBPACK_IMPORTED_MODULE_0_jquery__(initImageHover);
 
 __WEBPACK_IMPORTED_MODULE_0_jquery__(function () {
@@ -10354,7 +10357,7 @@ __WEBPACK_IMPORTED_MODULE_0_jquery__(function () {
 });
 
 function initImageHover() {
-    __WEBPACK_IMPORTED_MODULE_0_jquery__('div.img-item').hover(imgTitleFadeIn, imgTitleFadeOut);
+    __WEBPACK_IMPORTED_MODULE_0_jquery__('li.img-item').hover(imgTitleFadeIn, imgTitleFadeOut);
 }
 
 function imgTitleFadeIn() {
