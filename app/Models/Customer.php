@@ -21,4 +21,6 @@ class Customer extends Model
         'postal_address',
         'physical_address',
     ];
+
+
 }

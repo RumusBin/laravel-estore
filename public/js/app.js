@@ -34144,7 +34144,8 @@ function lifecycleMixin (Vue) {
     // based on the rendering backend used.
     if (!prevVnode) {
       // initial render
-      vm.$el = vm.__patch__(
+      //noinspection JSAnnotator
+        vm.$el = vm.__patch__(
         vm.$el, vnode, hydrating, false /* removeOnly */,
         vm.$options._parentElm,
         vm.$options._refElm
@@ -34154,7 +34155,8 @@ function lifecycleMixin (Vue) {
       vm.$options._parentElm = vm.$options._refElm = null;
     } else {
       // updates
-      vm.$el = vm.__patch__(prevVnode, vnode);
+      //noinspection JSAnnotator
+        vm.$el = vm.__patch__(prevVnode, vnode);
     }
     activeInstance = prevActiveInstance;
     // update __vue__ reference
@@ -34166,7 +34168,8 @@ function lifecycleMixin (Vue) {
     }
     // if parent is an HOC, update its $el as well
     if (vm.$vnode && vm.$parent && vm.$vnode === vm.$parent._vnode) {
-      vm.$parent.$el = vm.$el;
+      //noinspection JSAnnotator
+        vm.$parent.$el = vm.$el;
     }
     // updated hook is called by the scheduler to ensure that children are
     // updated in a parent's updated hook.
@@ -35966,7 +35969,8 @@ function initMixin (Vue) {
       // internal component options needs special treatment.
       initInternalComponent(vm, options);
     } else {
-      vm.$options = mergeOptions(
+      //noinspection JSAnnotator
+        vm.$options = mergeOptions(
         resolveConstructorOptions(vm.constructor),
         options || {},
         vm

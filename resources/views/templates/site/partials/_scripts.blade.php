@@ -4,3 +4,4 @@
 <script src="{{asset('site/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('site/js/jquery.prettyPhoto.js')}}"></script>
 <script src="{{asset('site/js/main.js')}}"></script>
+<script src="{{asset('js/task.js')}}"></script>

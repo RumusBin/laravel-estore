@@ -323,14 +323,71 @@ class ProductsController extends Controller
         return "Done";
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function addToCart(Request $request, $id)
     {
-        $product = Product::find($id);
+        $product = Product::with('images')->findOrFail($id);
+
         $oldCart = Session::has('cart')?Session::get('cart'):null;
         $cart = new Cart($oldCart);
         $cart->add($product, $product->id);
         $request->session()->put('cart', $cart);
+//        dd(session::get('cart'));
         return redirect()->back();
+    }
+
+    public function showCart()
+    {
+        if(!Session::has('cart'))
+        {
+            return view('site.shopping-cart');
+        }
+        $oldCart = Session::get('cart');
+        $cart = new Cart($oldCart);
+        $data['products'] = $cart->items;
+        $data['totalPrice'] = $cart->totalPrice;
+
+        return view('site.shopping-cart', $data);
+    }
+
+    public function deleteFromCart(Request $request, $id)
+    {
+        $product = Product::find($id);
+        $oldCart = Session::has('cart')?Session::get('cart'):null;
+        $cart = new Cart($oldCart);
+        $cart->remove($product, $product->id);
+        $request->session()->put('cart', $cart);
+        return redirect()->back();
+    }
+
+    public function removeAll(Request $request, $id)
+    {
+        $product = Product::find($id);
+        $oldCart = Session::has('cart')?Session::get('cart'):null;
+        $cart = new Cart($oldCart);
+        $cart->removeItem($product, $product->id);
+        $request->session()->put('cart', $cart);
+        return redirect()->back();
+    }
+
+    public function getCheckout()
+    {
+        if(!Session::has('cart')){
+            redirect()->back();
+        }
+        $oldCart = Session::get('cart');
+        $cart = new Cart($oldCart);
+        $totalPrice = $cart->totalPrice;
+        return view('site.checkout', ['totalPrice'=>$totalPrice]);
+    }
+
+    public function checkout(Request $request)
+    {
+        dd($request);
     }
 
 }

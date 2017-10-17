@@ -18,6 +18,9 @@ Route::namespace('Site')->group(function () {
 });
 
 Route::get('addToCart/{id}', 'Admin\ProductsController@addToCart')->name('addToCart');
+Route::get('deleteFromCart/{id}', 'Admin\ProductsController@deleteFromCart')->name('removeFromCart');
+Route::get('deleteAllFromCart/{id}', 'Admin\ProductsController@removeAll')->name('removeAllFromCart');
+Route::get('shoppingCart', 'Admin\ProductsController@showCart')->name('showToCart');
 
 
 Route::get('/admin-page', 'AdminController@index')->name('admin.dashboard');
@@ -71,6 +74,11 @@ Route::group(['middleware'=>['auth:admin'], ['SetLocale']], function(){
     // language-selector route
     Route::post('changelocale', 'LanguageController@changelocale')->name('changelocale');
 });
+
+    //checkout routs
+    Route::get('checkout', 'Admin\ProductsController@getCheckout')->name('getCheckout');
+    Route::post('checkout', 'Admin\ProductsController@checkout')->name('checkout');
+
     Route::get('orders', [
         'uses' => 'Admin\OrdersController@index',
         'as' => 'orders.index',

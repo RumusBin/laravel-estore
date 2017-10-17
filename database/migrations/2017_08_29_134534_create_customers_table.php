@@ -18,8 +18,8 @@ class CreateCustomersTable extends Migration
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->string('email')->unique();
-            $table->string('postal_address');
-            $table->string('physical_address');
+            $table->string('postal_address')->nullable();
+            $table->string('physical_address')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

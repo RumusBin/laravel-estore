@@ -19,7 +19,7 @@ class Cart
     {
         if ($oldCart) {
             $this->items = $oldCart->items;
-            $this->totalQty = $oldCart->tottalQty;
+            $this->totalQty = $oldCart->totalQty;
             $this->totalPrice = $oldCart->totalPrice;
         }
     }
@@ -40,4 +40,30 @@ class Cart
         $this->totalQty++;
         $this->totalPrice += $item->price;
     }
+
+    public function remove($item, $id)
+    {
+
+        $storedItem = $this->items[$id];
+
+        $storedItem['qty']--;
+        $storedItem['price'] = $item->price * $storedItem['qty'];
+        $this->items[$id] = $storedItem;
+        if($storedItem['qty'] <= 0)
+        {
+            unset($this->items[$id]);
+        }
+        $this->totalQty--;
+        $this->totalPrice -= $item->price;
+    }
+
+    public function removeItem($item, $id)
+    {
+        $this->totalPrice = $this->totalPrice - ($this->items[$id]['qty'] * $item->price);
+        $this->totalQty = $this->totalQty-$this->items[$id]['qty'];
+        unset($this->items[$id]);
+    }
+
+
+
 }

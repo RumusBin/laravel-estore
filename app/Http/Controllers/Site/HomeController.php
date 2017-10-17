@@ -14,7 +14,8 @@ class HomeController extends Controller
     {
         $categories = Category::all();
         $brands = Brand::all();
-        $products = Product::with('images')->get();
+        $products = Product::with('images')->paginate(5);
+
 
         return view('site.home', ['categories'=>$categories, 'brands'=>$brands, 'products'=>$products]);
     }
