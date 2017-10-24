@@ -17,7 +17,7 @@ class CreateProductsImagesTable extends Migration
             $table->increments('id');
             $table->string('image_path');
             $table->integer('product_id');
-            $table->boolean('is_main');
+            $table->boolean('is_main')->nullable();
             $table->timestamps();
         });
     }

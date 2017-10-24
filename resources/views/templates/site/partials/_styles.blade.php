@@ -5,6 +5,7 @@
 <link href="{{asset('site/css/animate.css')}}" rel="stylesheet">
 <link href="{{asset('site/css/main.css')}}" rel="stylesheet">
 <link href="{{asset('site/css/responsive.css')}}" rel="stylesheet">
+<link href="{{asset('plugins/jquery-ui-1.12.1/jquery-ui.min.css')}}" rel="stylesheet">
 
 <link rel="shortcut icon" href="{{asset('site.images/ico/favicon.ico')}}">
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{asset('site/images/ico/apple-touch-icon-144-precomposed.png')}}">

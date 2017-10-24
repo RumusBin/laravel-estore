@@ -12,6 +12,7 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use File;
 use Illuminate\Support\Facades\Session;
+use App\Models\Order;
 
 
 class ProductsController extends Controller
@@ -259,6 +260,31 @@ class ProductsController extends Controller
         }
 
     }
+    public function addNewImage(Request $request)
+    {
+        $image = new ProductsImages();
+
+
+        try {
+            $this->validate($request, [
+                'file'=> 'mimes:jpeg,jpg,png'
+            ]);
+
+            if ($request->input('product_id')) {
+                $productId = $request->input('product_id');
+                $newImage = $request->file('img_new');
+                $imageName = time() . '_' . $newImage->getClientOriginalName();
+                $newImage->move('images/products', $imageName);
+                $imagePath = '/images/products/' . $imageName;
+                $image->image_path = $imagePath;
+                $image->product_id = $productId;
+                $image->save();
+                return $imageName;
+            }
+        }catch(ModelNotFoundException $ex){
+            return response()->view('errors.'.'404');
+        }
+    }
 
     public function imageReload(Request $request)
     {
@@ -280,34 +306,9 @@ class ProductsController extends Controller
         }
 
 
-     return  $request->file();
+        return  $request->file();
     }
 
-    public function addNewImage(Request $request)
-    {
-        $image = new ProductsImages();
-
-
-            try {
-                $this->validate($request, [
-                    'file'=> 'mimes:jpeg,jpg,png'
-                ]);
-
-                if ($request->input('product_id')) {
-                    $productId = $request->input('product_id');
-                    $newImage = $request->file('img_new');
-                    $imageName = time() . '_' . $newImage->getClientOriginalName();
-                    $newImage->move('images/products', $imageName);
-                    $imagePath = '/images/products/' . $imageName;
-                    $image->image_path = $imagePath;
-                    $image->product_id = $productId;
-                    $image->save();
-                    return $imageName;
-                }
-            }catch(ModelNotFoundException $ex){
-                return response()->view('errors.'.'404');
-            }
-    }
 
     public function deleteImage($id)
     {
@@ -385,9 +386,6 @@ class ProductsController extends Controller
         return view('site.checkout', ['totalPrice'=>$totalPrice]);
     }
 
-    public function checkout(Request $request)
-    {
-        dd($request);
-    }
+
 
 }

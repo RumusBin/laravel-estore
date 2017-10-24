@@ -41,8 +41,8 @@ class SetLocale
         } else {
             $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
 
-            if ($locale != 'fr' && $locale != 'en') {
-                $locale = 'en';
+            if ($locale != 'ru' && $locale != 'en') {
+                $locale = 'ru';
             }
         }
 

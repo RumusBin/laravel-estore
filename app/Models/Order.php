@@ -14,10 +14,15 @@ class Order extends Model
      * @var array
      */
     protected $fillable = [
-        'order_number',
-        'transaction_date',
-        'customer_id',
-        'total_amount',
-        'status',
+        'cart',
+        'address',
+        'name',
+        'payment_id',
+        'status'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

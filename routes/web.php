@@ -15,6 +15,8 @@
 
 Route::namespace('Site')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
+    Route::post('new-order', 'OrderController@newOrder')->name('new.order');
+//    Route::get('')->name('get.profile');
 });
 
 Route::get('addToCart/{id}', 'Admin\ProductsController@addToCart')->name('addToCart');
@@ -77,7 +79,7 @@ Route::group(['middleware'=>['auth:admin'], ['SetLocale']], function(){
 
     //checkout routs
     Route::get('checkout', 'Admin\ProductsController@getCheckout')->name('getCheckout');
-    Route::post('checkout', 'Admin\ProductsController@checkout')->name('checkout');
+    Route::post('checkout', 'Admin\ProductsController@postCheckout')->name('checkout');
 
     Route::get('orders', [
         'uses' => 'Admin\OrdersController@index',

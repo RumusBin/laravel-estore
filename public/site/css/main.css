@@ -1911,6 +1911,8 @@ h2.title {
   font-weight: 300
 }
 
+
+
 .form-two > form > select {
   padding:10px 5px
 }
@@ -2520,4 +2522,38 @@ h2.title {
   color: #FE980F;
 }
 
+.btn.btn-close {
+  color: #FE980F;
+  background: #fef6fa;
+  border: 0 none;
+  border-radius: 0;
+  margin-top: 16px;
+}
 
+#hidden_town_text{
+  font-size: 12px;
+  display: none;
+}
+
+.order-message{
+  float: right;
+
+}
+
+.form-one{
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-body input{
+  background: #F0F0E9;
+  border: 0 none;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+  font-weight: 300;
+}
+
+#checkout_step_two{
+  display: none;
+}

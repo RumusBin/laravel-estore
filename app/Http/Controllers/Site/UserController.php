@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Site\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
 use App\Models\Order;
 
-class HomeController extends Controller
+class UserController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,20 +18,14 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function getProfile()
     {
         $orders = Auth::user()->orders;
 
         $orders->transform(function($order, $key){
-            $order->cart = unserialize($order->cart);
-            return $order;
+            $order->cart = userialize($order->cart);
         });
+
         return view('profile', ['orders'=>$orders]);
     }
-
 }

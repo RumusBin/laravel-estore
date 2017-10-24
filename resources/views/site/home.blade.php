@@ -13,6 +13,11 @@
     <section>
         <div class="container">
             <div class="row">
+                @if(Session::has('success'))
+                    <div class="text text-success">
+                        {{Session::get('success')}}
+                    </div>
+                    @endif
                 <div class="col-sm-3">
                     <div class="left-sidebar">
                         <h2>Category</h2>
