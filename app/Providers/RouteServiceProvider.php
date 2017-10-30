@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Request;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -23,8 +24,17 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
+        //for multilang in url
+//        $language = \Request::segment(1);
+//        $routeLang = '';
+//
+//        if (isset(\Config::get('app.locales')[$language]) && \App::getLocale() != $language) {
+//            \App::setLocale($language);
+//            $routeLang = $language;
+//        }
+//
+//        \Config::set('routeLang', $routeLang);
+//
         parent::boot();
     }
 
@@ -51,7 +61,15 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
+//        dd($locale = Request::segment(1));
+        $locale = Request::segment(1);
+//        if($locale == 'ru'){
+//            $locale = '/';
+//        }
+
+//
         Route::middleware('web')
+            ->prefix($locale)
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));
     }

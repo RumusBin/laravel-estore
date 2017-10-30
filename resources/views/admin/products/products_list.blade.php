@@ -40,11 +40,11 @@
                             @foreach ($products as $row)
                             <tr>
                                 <td>{{$row->product_code}}</td>
-                                <td>{{$row->product_name}}</td>
-                                <td>{{$row->image}}</td>
-                                <td>{{number_format($row->price,2)}}</td>
-                                <td>{{$row->brand->name}}</td>
-                                <td>{{$row->category->name}}</td>
+                                <td>{{$row['product_name']}}</td>
+                                <td></td>
+                                <td>{{number_format($row['price'],2)}}</td>
+                                {{--<td>{{$row['brand']->name}}</td>--}}
+                                {{--<td>{{$row['category']->name}}</td>--}}
                                 <td>
                                     <a href="{{ route('products.edit', ['id' => $row->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-pencil" title="Edit"></i> </a>
                                     <a href="{{ route('products.show', ['id' => $row->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" title="Delete"></i> </a>

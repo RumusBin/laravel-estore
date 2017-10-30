@@ -4,11 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use \Dimsav\Translatable\Translatable;
 
 
 class Product extends Model
 {
+
+    use Translatable;
     use SoftDeletes;
+    public $translatedAttributes = [
+        'product_name',
+        'description',
+        'meta_title',
+        'meta_description'
+    ];
+    public $translationModel = 'App\Models\Translations\ProductTranslation';
     /**
      * The attributes that are mass assignable.
      *
@@ -20,6 +30,8 @@ class Product extends Model
         'product_name',
         'image',
         'description',
+        'meta_title',
+        'meta_description',
         'price',
         'brand_id',
         'category_id',
@@ -30,7 +42,7 @@ class Product extends Model
      */
     public function brand()
     {
-        return $this->belongsTo('App\Models\Brand','brand_id');
+        return $this->belongsTo('App\Models\Brand');
     }
 
     /**
@@ -38,7 +50,7 @@ class Product extends Model
      */
     public function category()
     {
-        return $this->belongsTo('App\Models\Category','category_id');
+        return $this->belongsTo('App\Models\Category');
     }
 
     public function images()

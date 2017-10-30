@@ -13,27 +13,22 @@
 
 //sites routes
 
-Route::namespace('Site')->group(function () {
+Route::group(['namespace'=>'Site'], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::post('new-order', 'OrderController@newOrder')->name('new.order');
 //    Route::get('')->name('get.profile');
 });
 
-Route::get('addToCart/{id}', 'Admin\ProductsController@addToCart')->name('addToCart');
-Route::get('deleteFromCart/{id}', 'Admin\ProductsController@deleteFromCart')->name('removeFromCart');
-Route::get('deleteAllFromCart/{id}', 'Admin\ProductsController@removeAll')->name('removeAllFromCart');
-Route::get('shoppingCart', 'Admin\ProductsController@showCart')->name('showToCart');
 
 
-Route::get('/admin-page', 'AdminController@index')->name('admin.dashboard');
-
+// Users auth routes
 Auth::routes();
-Route::get('/users/confirmation/{token}', 'Auth\RegisterController@confirmation')->name('confirmation');
-
 Route::get('/profile', 'HomeController@index')->name('profile');
+Route::get('/users/confirmation/{token}', 'Auth\RegisterController@confirmation')->name('confirmation');
 Route::get('/users/logout', 'Auth\LoginController@userLogout')->name('user.logout');
 
-
+//Admins routes
+Route::get('/admin-page', 'AdminController@index')->name('admin.dashboard');
 Route::group(['prefix'=>'admin'], function(){
     Route::get('/login', 'Admin\AdminLoginController@showLoginForm')->name('admin.login');
     Route::post('/login', 'Admin\AdminLoginController@login')->name('admin.login.submit');
@@ -86,5 +81,15 @@ Route::group(['middleware'=>['auth:admin'], ['SetLocale']], function(){
         'as' => 'orders.index',
     ]);
 });
+
+//Cart routes
+Route::get('addToCart/{id}', 'Admin\ProductsController@addToCart')->name('addToCart');
+Route::get('deleteFromCart/{id}', 'Admin\ProductsController@deleteFromCart')->name('removeFromCart');
+Route::get('deleteAllFromCart/{id}', 'Admin\ProductsController@removeAll')->name('removeAllFromCart');
+Route::get('shoppingCart', 'Admin\ProductsController@showCart')->name('showToCart');
+
+Route::get('lang/{language}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
+
+
 
 

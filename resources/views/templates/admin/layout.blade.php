@@ -70,7 +70,7 @@
                         <div class="menu_section">
                             <h3>General</h3>
                             <ul class="nav side-menu">
-                                <li><a hef="#"><i class="fa fa-home"></i> @lang('admin/header.admin') </a></li>
+                                <li><a href="{{route('admin.dashboard')}}"><i class="fa fa-home"></i> @lang('admin/header.admin') </a></li>
                                 <li><a><i class="fa fa-edit"></i> @lang('admin/header.products') <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
                                         <li><a href="{{route('brands.index')}}">@lang('admin/header.brands')</a></li>
@@ -114,29 +114,55 @@
                             <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                         </div>
                         <div class="langselect navbar-left">
-                            {!! Form::open(['method' => 'POST', 'route' => 'changelocale', 'class' => 'form-inline navbar-select']) !!}
 
-                            <div class="form-group @if($errors->first('locale')) has-error @endif">
-                                <span aria-hidden="true"><i class="fa fa-flag"></i></span>
-                                {!! Form::select(
-                                    'locale',
-                                    ['en' => 'EN', 'ru' => 'RU'],
-                                    App::getLocale(),
-                                    [
-                                        'id'       => 'locale',
-                                        'class'    => 'form-control',
-                                        'required' => 'required',
-                                        'onchange' => 'this.form.submit()',
-                                    ]
-                                ) !!}
-                                <small class="text-danger">{{ $errors->first('locale') }}</small>
-                            </div>
+                            <form action="{{route('changelocale')}}" method="post" class="form-inline navbar-select form-locale-select">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <div class="form-group @if($errors->first('locale')) has-error @endif">
+                                    <span aria-hidden="true"><i class="fa fa-flag"></i></span>
+                                <select name="locale" onchange="this.form.submit()">
+                                    @foreach (config('translatable.locales') as $lang => $language)
+                                            <option
+                                                    @if($lang == App::getLocale())
+                                                            selected
+                                                    @endif
+                                                    value="{{$lang}}">{{$language}}</option>
 
-                            <div class="btn-group pull-right sr-only">
-                                {!! Form::submit("Change", ['class' => 'btn btn-success']) !!}
-                            </div>
+                                    @endforeach
+                                </select>
+                                    <small class="text-danger">{{ $errors->first('locale') }}</small>
+                                </div>
+                                {{--<div class="btn-group pull-right sr-only">--}}
+                                    {{--<input type="submit" class="btn btn-success">--}}
+                                {{--</div>--}}
+                            </form>
 
-                            {!! Form::close() !!}
+
+
+                            {{--{!! Form::open(['method' => 'POST', 'route' => 'changelocale', 'class' => 'form-inline navbar-select']) !!}--}}
+
+                            {{--<div class="form-group @if($errors->first('locale')) has-error @endif">--}}
+                                {{--<span aria-hidden="true"><i class="fa fa-flag"></i></span>--}}
+                                {{----}}
+                                {{--{!! Form::select(--}}
+                                    {{--'locale',--}}
+                                    {{--['en' => 'EN', 'ru' => 'RU'],--}}
+                                    {{----}}
+                                    {{--App::getLocale(),--}}
+                                    {{--[--}}
+                                        {{--'id'       => 'locale',--}}
+                                        {{--'class'    => 'form-control',--}}
+                                        {{--'required' => 'required',--}}
+                                        {{--'onchange' => 'this.form.submit()',--}}
+                                    {{--]--}}
+                                {{--) !!}  --}}
+                                {{--<small class="text-danger">{{ $errors->first('locale') }}</small>--}}
+                            {{--</div>--}}
+
+                            {{--<div class="btn-group pull-right sr-only">--}}
+                                {{--{!! Form::submit("Change", ['class' => 'btn btn-success']) !!}--}}
+                            {{--</div>--}}
+
+                            {{--{!! Form::close() !!}--}}
                         </div>
 
                         <ul class="nav navbar-nav navbar-right">

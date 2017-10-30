@@ -33,7 +33,8 @@ class LanguageController extends Controller
      */
     public function changelocale(Request $request)
     {
-        $this->validate($request, ['locale' => 'required|in:ru,en']);
+//        dd($request['locale']);
+        $this->validate($request, ['locale' => 'required|in:ru,ua,en']);
         $locale = $request['locale'];
 
         Session::put('locale', $locale);

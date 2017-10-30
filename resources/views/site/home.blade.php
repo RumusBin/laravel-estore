@@ -20,7 +20,7 @@
                     @endif
                 <div class="col-sm-3">
                     <div class="left-sidebar">
-                        <h2>Category</h2>
+                        <h2>@lang('site/main/main_layout.category')</h2>
                         <div class="panel-group category-products" id="accordian"><!--category-productsr-->
 
                             <div class="panel panel-default">
@@ -84,7 +84,7 @@
                         </div><!--/category-productsr-->
 
                         <div class="brands_products"><!--brands_products-->
-                            <h2>Brands</h2>
+                            <h2>@lang('site/main/main_layout.brands')</h2>
                             @if($brands)
                             <div class="brands-name">
                                 <ul class="nav nav-pills nav-stacked">
@@ -97,7 +97,7 @@
                         </div><!--/brands_products-->
 
                         <div class="price-range"><!--price-range-->
-                            <h2>Price Range</h2>
+                            <h2>@lang('site/main/main_layout.price-range')</h2>
                             <div class="well">
                                 <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
                                 <b>$ 0</b> <b class="pull-right">$ 600</b>
@@ -113,7 +113,7 @@
 
                 <div class="col-sm-9 padding-right">
                     <div class="features_items"><!--features_items-->
-                        <h2 class="title text-center">Features Items</h2>
+                        <h2 class="title text-center">@lang('site/main/main_layout.feature_items')</h2>
 
                         @if($products)
                             @foreach($products as $product)

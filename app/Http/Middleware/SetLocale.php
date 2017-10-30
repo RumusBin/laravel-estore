@@ -19,6 +19,7 @@ class SetLocale
      */
     public function handle($request, Closure $next)
     {
+
         // get locale from user ip
 //        $ip = '89.36.222.166';
 //
@@ -36,17 +37,42 @@ class SetLocale
 
         //get local from user browser header
 
+
         if (Session::has('locale')) {
             $locale = Session::get('locale', Config::get('app.locale'));
+            app()->setLocale($locale);
         } else {
             $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
-
-            if ($locale != 'ru' && $locale != 'en') {
-                $locale = 'ru';
+            if(!array_key_exists($locale, config('translatable.locales')) ) {
+                $locale = config('app.fallback_locale');
+                app()->setLocale($locale);
             }
-        }
 
-        App::setLocale($locale);
+        }
+//        dd($locale);
+//        if($locale == 'ru'){
+//            // Store segments in array
+//            $segments = $request->segments();
+//
+//            // Set the default language code as the first segment
+//            $segments = array_slice($segments, 1);
+//
+//            // Redirect to the correct url
+//            return redirect()->to(implode('/', $segments));
+//        }
+
+
+        if ($request->segment(1) != $locale ) {
+
+            // Store segments in array
+            $segments = $request->segments();
+
+            // Set the default language code as the first segment
+            $segments = array_replace($segments, [0=>$locale]);
+
+            // Redirect to the correct url
+            return redirect()->to(implode('/', $segments));
+        }
 
 
         return $next($request);

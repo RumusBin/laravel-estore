@@ -24,13 +24,16 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = new Product;
+        $products = Product::all();
+
+
+//        dd($products);
 
 //        $params = [
 ////            'title' => 'Products Listing',
 //            'products' => $products,
 //        ];
-        return view('admin.products.products_list', ['products'=>$products->all()]);
+        return view('admin.products.products_list', ['products'=>$products]);
     }
 
     /**
@@ -40,13 +43,17 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        $trans_fields = ['name', 'description', 'meta_title', 'meta_description'];
+        $langs = \Config::get('translatable.locales');
+
 
         $brands = Brand::all();
         $categories = Category::all();
         $params = [
-            'title' => 'Create Product',
+            'title' => 'E-Store | Create Product',
             'brands' => $brands,
             'categories' => $categories,
+            'langs'=> $langs,
 
         ];
         return view('admin.products.products_create')->with($params);
@@ -60,6 +67,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
+
 
             $this->validate($request, [
             'product_code' => 'required|unique:products',

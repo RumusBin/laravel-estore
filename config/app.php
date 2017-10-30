@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Kiev',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,6 +78,9 @@ return [
     */
 
     'locale' => 'en',
+    'lang_default' => 'ru',
+
+    'locales' => ['ru' => 'Русский', 'en' => 'English', 'ua'=>'Український'],
 
     /*
     |--------------------------------------------------------------------------
@@ -91,6 +94,7 @@ return [
     */
 
     'fallback_locale' => 'ru',
+
 
     /*
     |--------------------------------------------------------------------------
@@ -169,6 +173,7 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Dimsav\Translatable\TranslatableServiceProvider::class,
 
         /*
          * Application Service Providers...

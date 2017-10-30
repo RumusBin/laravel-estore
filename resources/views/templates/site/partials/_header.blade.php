@@ -34,14 +34,37 @@
                     </div>
                     <div class="btn-group pull-right">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
-                                USA
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="">Canada</a></li>
-                                <li><a href="">UK</a></li>
-                            </ul>
+
+                            <form action="{{route('changelocale')}}" method="post" class="">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <div class="form-group @if($errors->first('locale')) has-error @endif">
+
+                                    {{--<span aria-hidden="true"><i class="fa fa-flag"></i></span>--}}
+                                    <select name="locale" onchange="this.form.submit()" class="btn btn-default dropdown-toggle usa">
+
+                                        @foreach (config('translatable.locales') as $lang => $language)
+                                            <span class="caret"></span>
+                                            <option
+                                                    @if($lang == App::getLocale())
+                                                    selected
+                                                    @endif
+                                                    value="{{$lang}}">{{$language}}</option>
+
+                                        @endforeach
+                                    </select>
+                                    <small class="text-danger">{{ $errors->first('locale') }}</small>
+                                </div>
+                                {{--<div class="btn-group pull-right sr-only">--}}
+                                {{--<input type="submit" class="btn btn-success">--}}
+                                {{--</div>--}}
+                            </form>
+                            {{--<button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">--}}
+                                {{--<span class="caret"></span>--}}
+                            {{--</button>--}}
+                            {{--<ul class="dropdown-menu">--}}
+                                {{--<li><a href="">Canada</a></li>--}}
+                                {{--<li><a href="">UK</a></li>--}}
+                            {{--</ul>--}}
                         </div>
 
                         <div class="btn-group">
@@ -60,17 +83,17 @@
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
 
-                            <li><a href="{{route('showToCart')}}"><i class="fa fa-shopping-cart"></i> Cart <span class="badge badge-secondary">{{Session::has('cart')&& Session::get('cart')->totalQty > 0 ? Session::get('cart')->totalQty : ''}}</span></a></li>
+                            <li><a href="{{route('showToCart')}}"><i class="fa fa-shopping-cart"></i>@lang('site/main/main_layout.cart') <span class="badge badge-secondary">{{Session::has('cart')&& Session::get('cart')->totalQty > 0 ? Session::get('cart')->totalQty : ''}}</span></a></li>
                             @if(Auth::guest())
-                            <li><a href="{{route('login')}}"><i class="fa fa-unlock"></i> Login</a></li>
+                            <li><a href="{{route('login')}}"><i class="fa fa-unlock"></i> @lang('site/main/main_layout.login')</a></li>
                                 @else
-                                <li><a href="{{route('profile')}}"><i class="fa fa-user"></i> Account</a></li>
-                                <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
+                                <li><a href="{{route('profile')}}"><i class="fa fa-user"></i> @lang('site/main/main_layout.account')</a></li>
+                                <li><a href=""><i class="fa fa-star"></i> @lang('site/main/main_layout.wishlist'),</a></li>
                                 <li>
                                     <a href="#"
                                        onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
-                                        <i class="fa fa-lock"></i> Logout
+                                        <i class="fa fa-lock"></i> @lang('site/main/main_layout.logout')
                                     </a>
                                     <form id="logout-form" action="{{route('logout')}}" method="POST" style="display: none;">
                                         {{csrf_field()}}
@@ -98,8 +121,8 @@
                     </div>
                     <div class="mainmenu pull-left">
                         <ul class="nav navbar-nav collapse navbar-collapse">
-                            <li><a href="{{route('home')}}">Home</a></li>
-                            <li class="dropdown"><a href="#" class="active">Shop<i class="fa fa-angle-down"></i></a>
+                            <li><a href="{{route('home')}}">@lang('site/main/main_layout.home')</a></li>
+                            <li class="dropdown"><a href="#" class="active">@lang('site/main/main_layout.shop')<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="shop.html" class="active">Products</a></li>
                                     <li><a href="product-details.html">Product Details</a></li>
@@ -108,20 +131,20 @@
                                     <li><a href="login.html">Login</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
+                            <li class="dropdown"><a href="#">@lang('site/main/main_layout.blog')<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     <li><a href="blog.html">Blog List</a></li>
                                     <li><a href="blog-single.html">Blog Single</a></li>
                                 </ul>
                             </li>
                             <li><a href="404.html">404</a></li>
-                            <li><a href="contact-us.html">Contact</a></li>
+                            <li><a href="contact-us.html">@lang('site/main/main_layout.contact')</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="search_box pull-right">
-                        <input type="text" placeholder="Search"/>
+                        <input type="text" placeholder="@lang('site/main/main_layout.search')"/>
                     </div>
                 </div>
             </div>

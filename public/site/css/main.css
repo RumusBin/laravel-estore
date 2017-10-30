@@ -2557,3 +2557,6 @@ h2.title {
 #checkout_step_two{
   display: none;
 }
+.logo img{
+  width: 110px;s
+}

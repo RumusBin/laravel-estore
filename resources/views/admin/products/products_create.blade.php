@@ -1,4 +1,5 @@
 @extends('templates.admin.layout')
+@section('title'){{$title}}@endsection
 
 @section('content')
 <div class="">
@@ -14,11 +15,35 @@
                     <br />
                     <form method="post" action="{{ route('products.store') }}" data-parsley-validate class="form-horizontal form-label-left" enctype="multipart/form-data">
 
+
+
+
+
+
                         <div class="form-group{{ $errors->has('product_code') ? ' has-error' : '' }}">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product_code">Product Code <span class="required">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" value="{{ Request::old('product_code') ?: '' }}" id="product_code" name="product_code" class="form-control col-md-7 col-xs-12">
+
+                                <ul class="nav nav-tabs">
+                                    @foreach($langs as $code=>$countryName)
+                                        <li @if(App::getLocale()==$code)class="active"@endif>
+                                            <a  href="#product_code_{{$code}}" data-toggle="tab">{{$countryName}}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <div class="tab-content ">
+                                    @foreach($langs as $code=>$countryName)
+                                        <div class="tab-pane @if(App::getLocale() == $code) active @endif" id="product_code_{{$code}}">
+                                            <input type="text" value="{{ Request::old('product_code') ?: '' }}"  name="['localization']['product_code']['{{$code}}']" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <hr>
+
+                                {{--<input type="text" value="{{ Request::old('product_code') ?: '' }}" id="product_code" name="product_code" class="form-control col-md-7 col-xs-12">--}}
+
+
                                 @if ($errors->has('product_code'))
                                 <span class="help-block">{{ $errors->first('product_code') }}</span>
                                 @endif
