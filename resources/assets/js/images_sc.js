@@ -3,7 +3,7 @@ import * as $ from "jquery";
 let page_name = $('#_page_name').val();
 
 let galleryContainer = $('.galleryContainer');
-console.log(galleryContainer);
+
 
 $(initImageHover);
 
@@ -19,11 +19,12 @@ function initImageHover() {
 }
 
 function imgTitleFadeIn() {
-    $(this).find('.img_overlay').fadeIn(350);
+
+    $(this).children('div.img_overlay').fadeIn(350);
 }
 
 function imgTitleFadeOut() {
-    $(this).find('.img_overlay').fadeOut(350);
+    $(this).children('.img_overlay').fadeOut(350);
 }
 
 $('.img_icon_reload').on('click', function () {
@@ -56,12 +57,8 @@ function imgReload(itmId) {
             contentType: false,
             cache: false,
             success: function () {
-
-
-                window.location.reload(true);
-
+                // window.location.reload(true);
             },
-
             error: function (data) {
                 console.log('error ' + data);
             }
@@ -86,10 +83,10 @@ function readURL(input) {
 }
 $("#img_new").change(function(){
     readURL(this);
-
 });
 
-$('.img_icon_delete').on('click', function (){
+$('#img-item-delete').on('click', function (){
+    console.log('click here');
     let imgId = $(this).children('input').val();
 
     confirm('Вы действительно хотите удалить эту картинку???');
@@ -143,6 +140,10 @@ $('#new-img-add').on('click',function (e) {
         e.preventDefault();
         })
 
+});
+
+$('#new-img-form-close').on('click', function () {
+    $('.form_inner').fadeOut(250);
 });
 
 

@@ -43,11 +43,7 @@ class SetLocale
             app()->setLocale($locale);
         } else {
             $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
-            if(!array_key_exists($locale, config('translatable.locales')) ) {
-                $locale = config('app.fallback_locale');
-                app()->setLocale($locale);
-            }
-
+            app()->setLocale($locale);
         }
 //        dd($locale);
 //        if($locale == 'ru'){
@@ -62,17 +58,17 @@ class SetLocale
 //        }
 
 
-        if ($request->segment(1) != $locale ) {
-
-            // Store segments in array
-            $segments = $request->segments();
-
-            // Set the default language code as the first segment
-            $segments = array_replace($segments, [0=>$locale]);
-
-            // Redirect to the correct url
-            return redirect()->to(implode('/', $segments));
-        }
+//        if ($request->segment(1) != $locale ) {
+//
+//            // Store segments in array
+//            $segments = $request->segments();
+//
+//            // Set the default language code as the first segment
+//            $segments = array_replace($segments, [0=>$locale]);
+//
+//            // Redirect to the correct url
+//            return redirect()->to(implode('/', $segments));
+//        }
 
 
         return $next($request);

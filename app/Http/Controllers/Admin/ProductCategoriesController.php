@@ -28,8 +28,20 @@ class ProductCategoriesController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.categories_create');
-
+        //get list all locales from config file
+        $langs = \Config::get('translatable.locales');
+        //define field who was translated
+        $trans_fields = ['name', 'description', 'meta_title', 'meta_description'];
+        //define variable data
+        $data = [];
+        foreach($trans_fields as $field_name)
+        {
+            foreach($langs as $lang)
+            {
+                $data['trans_fields'][$field_name][$lang] = '';
+            }
+        }
+        return view('admin.categories.categories_create', $data);
     }
 
     /**
@@ -40,10 +52,11 @@ class ProductCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        $category = new Category;
+
         $this->validate($request, [
-            'name' => 'required',
+            'translations.*.name' => 'required|max:255'
         ]);
+        //create category image path if isset or attach default no-image
         if($request->hasFile('image')){
             $image = $request->image;
             $imageName = time() . '_' .$request->image->getClientOriginalName().'.png';
@@ -52,10 +65,10 @@ class ProductCategoriesController extends Controller
         }else {
             $imagePath = '/images/categories/no_image.png';
         }
-
-        $category->name = $request->name;
-        $category->image = $imagePath;
-        $category->description = $request->description;
+        //save new category with image path and translations fields
+        $category = Category::create();
+        $category->fill(['image'=>$imagePath]);
+        $category->fill($request->translations);
         $category->save();
         return redirect(route('product-categories.index'))->with('success', "The category <strong>$category->name</strong> has successfully been created.");
     }
@@ -95,22 +108,19 @@ class ProductCategoriesController extends Controller
      */
     public function edit($id)
     {
-        try
+        $langs = \Config::get('translatable.locales');
+        $trans_fields = ['name', 'description', 'meta_title', 'meta_description'];
+        $category = Category::find($id);
+        $params['category'] = $category;
+        $params['category']->setDefaultLocale('ru');
+        foreach($trans_fields as $field_name)
         {
-            $category = Category::findOrFail($id);
-            $params = [
-                'title' => 'Edit Category',
-                'category' => $category,
-            ];
-            return view('admin.categories.categories_edit')->with($params);
-        }
-        catch (ModelNotFoundException $ex)
-        {
-            if ($ex instanceof ModelNotFoundException)
+            foreach($langs as $lang)
             {
-                return response()->view('errors.'.'404');
+                $params['trans_fields'][$field_name][$lang] = !empty(!empty($params['category']) && $params['category']->translate($lang)) ? $params['category']->translate($lang)->$field_name : '';
             }
         }
+        return view('admin.categories.categories_edit')->with($params);
     }
 
     /**
@@ -122,17 +132,14 @@ class ProductCategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         try
         {
             $this->validate($request, [
-                'name' => 'required|unique:categories,name,'.$id,
-                'description' => 'required',
+                'translations.*.description' => 'max:500',
             ]);
 
             $category = Category::findOrFail($id);
-            $category->name = $request->input('name');
-            $category->description = $request->input('description');
+            $category->fill($request->translations);
             $category->save();
             return redirect()->route('product-categories.index')->with('success', "The product category <strong>Category</strong> has successfully been updated.");
         }

@@ -10346,7 +10346,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var page_name = __WEBPACK_IMPORTED_MODULE_0_jquery__('#_page_name').val();
 
 var galleryContainer = __WEBPACK_IMPORTED_MODULE_0_jquery__('.galleryContainer');
-console.log(galleryContainer);
 
 __WEBPACK_IMPORTED_MODULE_0_jquery__(initImageHover);
 
@@ -10361,11 +10360,12 @@ function initImageHover() {
 }
 
 function imgTitleFadeIn() {
-    __WEBPACK_IMPORTED_MODULE_0_jquery__(this).find('.img_overlay').fadeIn(350);
+
+    __WEBPACK_IMPORTED_MODULE_0_jquery__(this).children('div.img_overlay').fadeIn(350);
 }
 
 function imgTitleFadeOut() {
-    __WEBPACK_IMPORTED_MODULE_0_jquery__(this).find('.img_overlay').fadeOut(350);
+    __WEBPACK_IMPORTED_MODULE_0_jquery__(this).children('.img_overlay').fadeOut(350);
 }
 
 __WEBPACK_IMPORTED_MODULE_0_jquery__('.img_icon_reload').on('click', function () {
@@ -10396,10 +10396,8 @@ function imgReload(itmId) {
             contentType: false,
             cache: false,
             success: function success() {
-
-                window.location.reload(true);
+                // window.location.reload(true);
             },
-
             error: function error(data) {
                 console.log('error ' + data);
             }
@@ -10425,7 +10423,8 @@ __WEBPACK_IMPORTED_MODULE_0_jquery__("#img_new").change(function () {
     readURL(this);
 });
 
-__WEBPACK_IMPORTED_MODULE_0_jquery__('.img_icon_delete').on('click', function () {
+__WEBPACK_IMPORTED_MODULE_0_jquery__('#img-item-delete').on('click', function () {
+    console.log('click here');
     var imgId = __WEBPACK_IMPORTED_MODULE_0_jquery__(this).children('input').val();
 
     confirm('Вы действительно хотите удалить эту картинку???');
@@ -10476,6 +10475,10 @@ __WEBPACK_IMPORTED_MODULE_0_jquery__('#new-img-add').on('click', function (e) {
         __WEBPACK_IMPORTED_MODULE_0_jquery__('.form_inner').fadeOut(350);
         e.preventDefault();
     });
+});
+
+__WEBPACK_IMPORTED_MODULE_0_jquery__('#new-img-form-close').on('click', function () {
+    __WEBPACK_IMPORTED_MODULE_0_jquery__('.form_inner').fadeOut(250);
 });
 
 /***/ })

@@ -13,12 +13,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-
-
         $categories = Category::all();
         $brands = Brand::all();
         $products = Product::with('images')->paginate(5);
-
 
         return view('site.home', ['categories'=>$categories, 'brands'=>$brands, 'products'=>$products]);
     }

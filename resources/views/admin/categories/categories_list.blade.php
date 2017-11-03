@@ -17,6 +17,7 @@
                             <tr>
                                 <th>Category</th>
                                 <th>Description</th>
+                                <th>Image</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -24,6 +25,7 @@
                             <tr>
                                 <th>Category</th>
                                 <th>Description</th>
+                                <th>Image</th>
                                 <th>Action</th>
                             </tr>
                         </tfoot>
@@ -32,7 +34,8 @@
                             @foreach($categories as $row)
                             <tr>
                                 <td>{{$row->name}}</td>
-                                <td>{{$row->description}}</td>
+                                <td>{!! $row->description !!}</td>
+                                <td><img src="{{$row->image}}" class="tab_img" alt="catgory_{{$row->name}}_image"></td>
                                 <td>
                                     <a href="{{ route('product-categories.edit', ['id' => $row->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-pencil" title="Edit"></i> </a>
                                     <a href="{{ route('product-categories.show', ['id' => $row->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" title="Delete"></i> </a>

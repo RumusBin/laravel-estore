@@ -13,7 +13,7 @@ class Product extends Model
     use Translatable;
     use SoftDeletes;
     public $translatedAttributes = [
-        'product_name',
+        'name',
         'description',
         'meta_title',
         'meta_description'
@@ -27,9 +27,7 @@ class Product extends Model
     protected $fillable = [
         'id',
         'product_code',
-        'product_name',
         'image',
-        'description',
         'meta_title',
         'meta_description',
         'price',

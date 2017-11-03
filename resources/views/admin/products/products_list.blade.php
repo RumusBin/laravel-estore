@@ -40,11 +40,17 @@
                             @foreach ($products as $row)
                             <tr>
                                 <td>{{$row->product_code}}</td>
-                                <td>{{$row['product_name']}}</td>
-                                <td></td>
+                                <td>{{$row->name}}</td>
+                                <td>
+                                    @foreach($row['images'] as $image)
+                                         @if($image->is_main)
+                                             <img class="tab_img" src="{{$image->image_path}}" alt="">
+                                        @endif
+                                    @endforeach
+                                </td>
                                 <td>{{number_format($row['price'],2)}}</td>
-                                {{--<td>{{$row['brand']->name}}</td>--}}
-                                {{--<td>{{$row['category']->name}}</td>--}}
+                                <td>{{$row['brand']->name}}</td>
+                                <td>{{$row['category']->name}}</td>
                                 <td>
                                     <a href="{{ route('products.edit', ['id' => $row->id]) }}" class="btn btn-info btn-xs"><i class="fa fa-pencil" title="Edit"></i> </a>
                                     <a href="{{ route('products.show', ['id' => $row->id]) }}" class="btn btn-danger btn-xs"><i class="fa fa-trash-o" title="Delete"></i> </a>

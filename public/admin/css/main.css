@@ -2,17 +2,13 @@
     /*width: 200px;*/
 /*}*/
 
-.img_overlay{
-    display: none;
-}
-
 .image-box{
     width: 200px;
     text-align: center;
     padding: 0 50px;
 }
 .tab_img{
-    width: 200px;
+    width: 100px;
     margin: 0 50px;
 
 }
@@ -21,30 +17,35 @@ td:nth-child(4) {
     vertical-align: middle;
 }
 .image-inner{
+    display: flex;
+    justify-content: space-between;
     padding: 1px;
     max-height: 250px;
 }
-.img-item{
 
+
+
+.img-item{
     height: 200px;
     display: inline-block;
     padding: 1px;
+    margin: 1px;
 }
 li img{
     max-width: 200px;
     vertical-align: middle;
-    height: auto;
+
 }
 
 .img_overlay{
+    display: none;
 background: rgba(0, 0, 0, 0.4);
 width: 60px;
 height: 60px;
 z-index: 1000;
 position: absolute;
-
-    top: 50px;
-    left: 50px;
+    top: 30%;
+    left: 30%;
 }
 
 .img_icon_reload{
@@ -100,18 +101,26 @@ position: absolute;
 }
 .main_image{
     display: block;
+    margin: 0 20px;
     width: 100%;
 }
 .main_image img{
-    width: inherit;
+    width: 200px;
 }
 
 #new-img-add img{
     width: 100px;
 
 }
+.galleryContainer{
+    margin: 20px 0;
+    border: 1px solid grey;
+}
+#img_galery{
+    margin: 10px 0;
+}
 .image {
-    height: 170px;
+    /*height: 170px;*/
     object-fit: cover;
      object-position: 0 25%;
     width: 100%;
@@ -120,4 +129,18 @@ position: absolute;
 .langselect{
     padding-top: 16px;
 }
+
+.img-item img{
+    width: 180px;
+    margin: 0 20px;
+}
+#new-img-add{
+    position: absolute;
+}
+.form_inner .img_icon_delete{
+    position: absolute;
+    left: 230px;
+    top: 30px;
+}
+
 

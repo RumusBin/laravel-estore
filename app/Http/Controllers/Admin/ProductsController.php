@@ -26,7 +26,6 @@ class ProductsController extends Controller
     {
         $products = Product::all();
 
-
 //        dd($products);
 
 //        $params = [
@@ -43,20 +42,24 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $trans_fields = ['name', 'description', 'meta_title', 'meta_description'];
+        //get list all locales from config file
         $langs = \Config::get('translatable.locales');
+        //define field who was translated
+        $trans_fields = ['name', 'description', 'meta_title', 'meta_description'];
+        //define variable data
+        $data = [];
+        foreach($trans_fields as $field_name)
+        {
+            foreach($langs as $lang)
+            {
+                $data['trans_fields'][$field_name][$lang] = '';
+            }
+        }
+        $data['brands'] = Brand::all();
+        $data['categories'] = Category::all();
+        $data['title'] = 'E-Store | Create Product';
 
-
-        $brands = Brand::all();
-        $categories = Category::all();
-        $params = [
-            'title' => 'E-Store | Create Product',
-            'brands' => $brands,
-            'categories' => $categories,
-            'langs'=> $langs,
-
-        ];
-        return view('admin.products.products_create')->with($params);
+        return view('admin.products.products_create')->with($data);
     }
 
     /**
@@ -68,32 +71,29 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
 
-
             $this->validate($request, [
             'product_code' => 'required|unique:products',
-            'product_name' => 'required',
-            'description' => 'required',
             'price' => 'required',
             'brand_id' => 'required',
             'category_id' => 'required',
         ]);
         $product = Product::create([
             'product_code' => $request->input('product_code'),
-            'product_name' => $request->input('product_name'),
-            'description' => $request->input('description'),
             'price' => $request->input('price'),
             'brand_id' => $request->input('brand_id'),
             'category_id' => $request->input('category_id'),
         ]);
 
+         $product->fill($request->translations);
+         $product->save();
+
         if($request->hasFile('images')){
             $last_product = Product::orderBy('id', 'desc')->first();
             $product_id = $last_product->id;
-
             foreach ($request->images as $image){
 
-                        $imageName = time() . '_' . $image->getClientOriginalName();
-                        $image->move('images/products', $imageName);
+                        $imageName = time() . '_product_' . md5($image->getClientOriginalName()).'.jpg';
+                        $image->move('images/products/', $imageName);
                         $imagePath = '/images/products/'.$imageName;
                        $imageModel = new ProductsImages;
                        $imageModel->image_path = $imagePath;
@@ -144,17 +144,23 @@ class ProductsController extends Controller
     {
         try
         {
-            $brands = Brand::all();
-            $categories = Category::all();
-            $product = Product::findOrFail($id);
-            $images = ProductsImages::where('product_id', $id)->get();
-            $params = [
-                'title' => 'Edit Product',
-                'brands' => $brands,
-                'categories' => $categories,
-                'product' => $product,
-                'images' => $images
-            ];
+            $params['product'] = Product::findOrFail($id);
+            $langs = \Config::get('translatable.locales');
+            $trans_fields = ['name', 'description', 'meta_title', 'meta_description'];
+
+
+            $params['product']->setDefaultLocale('ru');
+            foreach($trans_fields as $field_name)
+            {
+                foreach($langs as $lang)
+                {
+                    $params['trans_fields'][$field_name][$lang] = !empty(!empty($params['product']) && $params['product']->translate($lang)) ? $params['product']->translate($lang)->$field_name : '';
+                }
+            }
+            $params['brands'] = Brand::all();
+            $params['categories'] = Category::all();
+            $params['images'] = ProductsImages::where('product_id', $id)->get();
+            $params['title'] = 'Edit Product';
             return view('admin.products.products_edit')->with($params);
         }
         catch (ModelNotFoundException $ex)

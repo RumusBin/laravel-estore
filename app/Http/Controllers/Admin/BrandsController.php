@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Models\Translations\BrandTranslation;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,6 @@ class BrandsController extends Controller
         $this->middleware('permission:edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:delete', ['only' => ['show', 'delete']]);
     }
-
 
     /**
      * Display a listing of the resource.
@@ -41,7 +41,21 @@ class BrandsController extends Controller
      */
     public function create()
     {
-        return view('admin.brands.brands_create');
+        //get list all locales from config file
+        $langs = \Config::get('translatable.locales');
+        //define field who was translated
+        $trans_fields = ['name', 'description', 'meta_title', 'meta_description'];
+        //define variable data
+        $data = [];
+        foreach($trans_fields as $field_name)
+        {
+            foreach($langs as $lang)
+            {
+                $data['trans_fields'][$field_name][$lang] = '';
+            }
+        }
+
+        return view('admin.brands.brands_create', $data);
     }
 
     /**
@@ -52,26 +66,25 @@ class BrandsController extends Controller
      */
     public function store(Request $request)
     {
-        $brand = new Brand;
         $this->validate($request, [
-            'name' => 'required',
+            'translations.*.name' => 'required|max:255'
         ]);
         if($request->hasFile('image')){
             $image = $request->image;
             $imageName = md5($request->image->getClientOriginalName()).'.png';
             $image->move('images/brands', $imageName);
+            $imagePath = '/images/brands/'.$imageName;
         }else {
-            $imageName = 'no_image.png';
+            $imagePath = '/images/brands/no_image.png';
         }
 
-        $brand->name = $request->name;
-        $brand->image = $imageName;
-        $brand->description = $request->description;
+        $brand = Brand::create();
+        $brand->fill(['image'=>$imagePath]);
+        $brand->fill($request->translations);
         $brand->save();
-
 //        Mail::to('bestbrandmarket@gmail.com')->send(new BrandCreate($brand));
 
-        return redirect(route('brands.index'))->with('success', "The brand <strong>$brand->name</strong> has successfully been created.");
+        return redirect(route('brands.index'))->with('success', "The brand has successfully been created.");
     }
 
     /**
@@ -89,7 +102,6 @@ class BrandsController extends Controller
                 'title' => 'Delete Brand',
                 'brand' => $brand,
             ];
-
             return view('admin.brands.brands_delete')->with($params);
         }
         catch (ModelNotFoundException $ex)
@@ -109,22 +121,19 @@ class BrandsController extends Controller
      */
     public function edit($id)
     {
-        try
-        {
-            $brand = Brand::findOrFail($id);
-            $params = [
-                'title' => 'Edit Brand',
-                'brand' => $brand,
-            ];
-            return view('admin.brands.brands_edit')->with($params);
-        }
-        catch (ModelNotFoundException $ex)
-        {
-            if ($ex instanceof ModelNotFoundException)
+            $langs = \Config::get('translatable.locales');
+            $trans_fields = ['name', 'description', 'meta_title', 'meta_description'];
+            $brand = Brand::find($id);
+            $params['brand'] = $brand;
+            $params['brand']->setDefaultLocale('ru');
+            foreach($trans_fields as $field_name)
             {
-                return response()->view('errors.'.'404');
+                foreach($langs as $lang)
+                {
+                    $params['trans_fields'][$field_name][$lang] = !empty(!empty($params['brand']) && $params['brand']->translate($lang)) ? $params['brand']->translate($lang)->$field_name : '';
+                }
             }
-        }
+            return view('admin.brands.brands_edit')->with($params);
     }
 
     /**
@@ -139,11 +148,11 @@ class BrandsController extends Controller
         try
         {
             $this->validate($request, [
-                'name' => 'required|unique:brands,name,'.$id,
-                'description' => 'required',
+
+                    'translations.*.description' => 'max:500',
             ]);
             $brand = Brand::findOrFail($id);
-            $brand->description = $request->input('description');
+            $brand->fill($request->translations);
             $brand->save();
             return redirect()->route('brands.index')->with('success', "The brand <strong>$brand->name</strong> has successfully been updated.");
         }
@@ -187,7 +196,7 @@ class BrandsController extends Controller
 
     public function imageReload(Request $request)
     {
-
+//        dd($request);
         $brandId = $request->input('itmId');
 
         $brand = Brand::find($brandId);
@@ -195,9 +204,7 @@ class BrandsController extends Controller
         $oldFile = $brand->image;
 
         File::delete(public_path().$oldFile);
-
         $newImage = $request->file('img_new');
-
         if($newImage){
             $imageName = time() . '_' . $newImage->getClientOriginalName();
             $newImage->move('images/brands', $imageName);

@@ -19,8 +19,6 @@ Route::group(['namespace'=>'Site'], function () {
 //    Route::get('')->name('get.profile');
 });
 
-
-
 // Users auth routes
 Auth::routes();
 Route::get('/profile', 'HomeController@index')->name('profile');
@@ -63,13 +61,10 @@ Route::group(['middleware'=>['auth:admin'], ['SetLocale']], function(){
     //brands image routes
     Route::post('brands/imageReload', 'Admin\BrandsController@imageReload');
 
-
-
     Route::resource('users', 'Admin\UsersController');
     Route::get('/brandsRip', 'Admin\BrandsController@brandRip')->name('brands.rip');
 
-    // language-selector route
-    Route::post('changelocale', 'LanguageController@changelocale')->name('changelocale');
+
 });
 
     //checkout routs
@@ -88,7 +83,9 @@ Route::get('deleteFromCart/{id}', 'Admin\ProductsController@deleteFromCart')->na
 Route::get('deleteAllFromCart/{id}', 'Admin\ProductsController@removeAll')->name('removeAllFromCart');
 Route::get('shoppingCart', 'Admin\ProductsController@showCart')->name('showToCart');
 
-Route::get('lang/{language}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
+//Route::get('lang/{language}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
+// language-selector route
+Route::post('changelocale', 'LanguageController@changelocale')->name('changelocale');
 
 
 
