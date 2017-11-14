@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->float('price')->default(0);
             $table->integer('brand_id')->unsigned()->index();
             $table->integer('category_id')->unsigned()->index();
+            $table->string('slug')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

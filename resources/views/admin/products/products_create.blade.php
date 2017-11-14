@@ -27,6 +27,19 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="slug">Slug <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <div class="tab-pane" id="slug">
+                                    <input type="text" value="{{ Request::old('product_code') ?: '' }}"  name="slug" class="form-control col-md-7 col-xs-12">
+                                </div>
+
+                                @if ($errors->has('slug'))
+                                    <span class="help-block">{{ $errors->first('slug') }}</span>
+                                @endif
+                            </div>
+                        </div>
                         <br>
                         <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="price">Price <span class="required">*</span>

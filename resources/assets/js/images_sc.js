@@ -1,5 +1,7 @@
 import * as $ from "jquery";
 
+
+
 let page_name = $('#_page_name').val();
 
 let galleryContainer = $('.galleryContainer');
@@ -19,8 +21,7 @@ function initImageHover() {
 }
 
 function imgTitleFadeIn() {
-
-    $(this).children('div.img_overlay').fadeIn(350);
+    $(this).children('.img_overlay').fadeIn(350);
 }
 
 function imgTitleFadeOut() {
@@ -30,25 +31,21 @@ function imgTitleFadeOut() {
 $('.img_icon_reload').on('click', function () {
 
     let itmId = $(this).children('input').val();
-
-
+    console.log(itmId);
     imgReload(itmId);
     });
 
 // send data to the server
 
 function imgReload(itmId) {
-
 // show form for check new image
     $('.form_inner').fadeIn(350);
 
     $('#inp_submit').on('click', function (e) {
 
-
         let form = $('#reload_img')[0];
         let formData = new FormData(form);
         formData.append('itmId', itmId);
-
         $.ajax({
             type: "POST",
             url: '/admin/'+page_name+'/imageReload',
@@ -57,7 +54,7 @@ function imgReload(itmId) {
             contentType: false,
             cache: false,
             success: function () {
-                // window.location.reload(true);
+                window.location.reload(true);
             },
             error: function (data) {
                 console.log('error ' + data);
@@ -85,27 +82,28 @@ $("#img_new").change(function(){
     readURL(this);
 });
 
-$('#img-item-delete').on('click', function (){
-    console.log('click here');
+$('.img_icon_delete').on('click', function (){
     let imgId = $(this).children('input').val();
+    console.log(imgId);
 
-    confirm('Вы действительно хотите удалить эту картинку???');
-    $.ajax({
-        type: "POST",
-        url: '/admin/'+page_name+'/deleteImage/'+imgId,
-        data: "",
-        processData: false,
-        contentType: false,
-        cache: false,
-        success: function (response) {
-            alert('Сделано! '+response);
-            window.location.reload(true);
-        },
-        error: function (data) {
-            console.log('error ' + data);
-        }
-    });
+    if(confirm('Вы действительно хотите удалить эту картинку???')){
 
+        $.ajax({
+            type: "POST",
+            url: '/admin/'+page_name+'/deleteImage/'+imgId,
+            data: "",
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (response) {
+
+                window.location.reload(true);
+            },
+            error: function (data) {
+                console.log('error ' + data);
+            }
+        });
+    }
 });
 
 $('#new-img-add').on('click',function (e) {
@@ -118,8 +116,6 @@ $('#new-img-add').on('click',function (e) {
         let form = $('#reload_img')[0];
         let formData = new FormData(form);
         formData.append('product_id', item_id);
-
-
         $.ajax({
             type: "POST",
             url: '/admin/'+page_name+'/addNewImage',
@@ -142,9 +138,22 @@ $('#new-img-add').on('click',function (e) {
 
 });
 
-$('#new-img-form-close').on('click', function () {
+$('#new_img_form_close').on('click', function () {
+
     $('.form_inner').fadeOut(250);
 });
+
+// when our images more then 5 we are closing the opportunity to add new
+$(document).ready(function () {
+        let count = $('.img-item').length;
+        if(count>=5){
+            $('#new-img-add').fadeOut(200);
+        }else $('#new-img-add').fadeIn(200);
+}
+
+);
+
+
 
 
 

@@ -10360,8 +10360,7 @@ function initImageHover() {
 }
 
 function imgTitleFadeIn() {
-
-    __WEBPACK_IMPORTED_MODULE_0_jquery__(this).children('div.img_overlay').fadeIn(350);
+    __WEBPACK_IMPORTED_MODULE_0_jquery__(this).children('.img_overlay').fadeIn(350);
 }
 
 function imgTitleFadeOut() {
@@ -10371,14 +10370,13 @@ function imgTitleFadeOut() {
 __WEBPACK_IMPORTED_MODULE_0_jquery__('.img_icon_reload').on('click', function () {
 
     var itmId = __WEBPACK_IMPORTED_MODULE_0_jquery__(this).children('input').val();
-
+    console.log(itmId);
     imgReload(itmId);
 });
 
 // send data to the server
 
 function imgReload(itmId) {
-
     // show form for check new image
     __WEBPACK_IMPORTED_MODULE_0_jquery__('.form_inner').fadeIn(350);
 
@@ -10387,7 +10385,6 @@ function imgReload(itmId) {
         var form = __WEBPACK_IMPORTED_MODULE_0_jquery__('#reload_img')[0];
         var formData = new FormData(form);
         formData.append('itmId', itmId);
-
         __WEBPACK_IMPORTED_MODULE_0_jquery__["ajax"]({
             type: "POST",
             url: '/admin/' + page_name + '/imageReload',
@@ -10396,7 +10393,7 @@ function imgReload(itmId) {
             contentType: false,
             cache: false,
             success: function success() {
-                // window.location.reload(true);
+                window.location.reload(true);
             },
             error: function error(data) {
                 console.log('error ' + data);
@@ -10423,26 +10420,28 @@ __WEBPACK_IMPORTED_MODULE_0_jquery__("#img_new").change(function () {
     readURL(this);
 });
 
-__WEBPACK_IMPORTED_MODULE_0_jquery__('#img-item-delete').on('click', function () {
-    console.log('click here');
+__WEBPACK_IMPORTED_MODULE_0_jquery__('.img_icon_delete').on('click', function () {
     var imgId = __WEBPACK_IMPORTED_MODULE_0_jquery__(this).children('input').val();
+    console.log(imgId);
 
-    confirm('Вы действительно хотите удалить эту картинку???');
-    __WEBPACK_IMPORTED_MODULE_0_jquery__["ajax"]({
-        type: "POST",
-        url: '/admin/' + page_name + '/deleteImage/' + imgId,
-        data: "",
-        processData: false,
-        contentType: false,
-        cache: false,
-        success: function success(response) {
-            alert('Сделано! ' + response);
-            window.location.reload(true);
-        },
-        error: function error(data) {
-            console.log('error ' + data);
-        }
-    });
+    if (confirm('Вы действительно хотите удалить эту картинку???')) {
+
+        __WEBPACK_IMPORTED_MODULE_0_jquery__["ajax"]({
+            type: "POST",
+            url: '/admin/' + page_name + '/deleteImage/' + imgId,
+            data: "",
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function success(response) {
+
+                window.location.reload(true);
+            },
+            error: function error(data) {
+                console.log('error ' + data);
+            }
+        });
+    }
 });
 
 __WEBPACK_IMPORTED_MODULE_0_jquery__('#new-img-add').on('click', function (e) {
@@ -10455,7 +10454,6 @@ __WEBPACK_IMPORTED_MODULE_0_jquery__('#new-img-add').on('click', function (e) {
         var form = __WEBPACK_IMPORTED_MODULE_0_jquery__('#reload_img')[0];
         var formData = new FormData(form);
         formData.append('product_id', item_id);
-
         __WEBPACK_IMPORTED_MODULE_0_jquery__["ajax"]({
             type: "POST",
             url: '/admin/' + page_name + '/addNewImage',
@@ -10477,8 +10475,17 @@ __WEBPACK_IMPORTED_MODULE_0_jquery__('#new-img-add').on('click', function (e) {
     });
 });
 
-__WEBPACK_IMPORTED_MODULE_0_jquery__('#new-img-form-close').on('click', function () {
+__WEBPACK_IMPORTED_MODULE_0_jquery__('#new_img_form_close').on('click', function () {
+
     __WEBPACK_IMPORTED_MODULE_0_jquery__('.form_inner').fadeOut(250);
+});
+
+// when our images more then 5 we are closing the opportunity to add new
+__WEBPACK_IMPORTED_MODULE_0_jquery__(document).ready(function () {
+    var count = __WEBPACK_IMPORTED_MODULE_0_jquery__('.img-item').length;
+    if (count >= 5) {
+        __WEBPACK_IMPORTED_MODULE_0_jquery__('#new-img-add').fadeOut(200);
+    } else __WEBPACK_IMPORTED_MODULE_0_jquery__('#new-img-add').fadeIn(200);
 });
 
 /***/ })

@@ -4,12 +4,12 @@
 @endsection
  @section('content')
     @include('templates.site.partials._header')
+
     <section id="advertisement"{{asset('site/')}}>
         <div class="container">
             <img src="{{asset('site/images/shop/advertisement.jpg')}}" alt="" />
         </div>
     </section>
-
     <section>
         <div class="container">
             <div class="row">
@@ -123,11 +123,13 @@
                                     <div class="productinfo text-center">
                                         @foreach($product->images as $image)
                                         @if($image->is_main == 1)
+                                                <a href="{{route('site.product.show', $product->slug)}}">
                                         <img src="{{$image->image_path}}" alt   ="" />
                                         @endif
                                         @endforeach
                                         <h2>${{$product->price}}</h2>
-                                        <p>{!! $product->product_name !!}</p>
+                                        <p>{!! $product->name !!}</p>
+                                                </a>
                                         <a href="{{route('addToCart', $product->id)}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
                                     </div>
                                     {{--<div class="product-overlay">--}}
@@ -159,5 +161,6 @@
 
         </div>
     </section>
+
      @include('templates.site.partials._footer')
  @endsection

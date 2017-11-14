@@ -42,14 +42,13 @@
                                     {{--<span aria-hidden="true"><i class="fa fa-flag"></i></span>--}}
                                     <select name="locale" onchange="this.form.submit()" class="btn btn-default dropdown-toggle usa">
 
-                                        @foreach (config('translatable.locales') as $lang => $language)
+                                        @foreach (config('app.locales') as $lang=>$language)
                                             <span class="caret"></span>
                                             <option
                                                     @if($lang == App::getLocale())
                                                     selected
                                                     @endif
                                                     value="{{$lang}}">{{$language}}</option>
-
                                         @endforeach
                                     </select>
                                     <small class="text-danger">{{ $errors->first('locale') }}</small>

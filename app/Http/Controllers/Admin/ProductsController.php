@@ -76,12 +76,16 @@ class ProductsController extends Controller
             'price' => 'required',
             'brand_id' => 'required',
             'category_id' => 'required',
+            'slug' => 'required',
+            'translations.*.name'=>'required',
+            'translations.*.description'=>'required',
         ]);
         $product = Product::create([
-            'product_code' => $request->input('product_code'),
-            'price' => $request->input('price'),
-            'brand_id' => $request->input('brand_id'),
-            'category_id' => $request->input('category_id'),
+            'product_code' => $request->product_code,
+            'price' => $request->price,
+            'brand_id' => $request->brand_id,
+            'category_id' => $request->category_id,
+            'slug' => $request->slug,
         ]);
 
          $product->fill($request->translations);
@@ -181,23 +185,23 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         try
         {
             $this->validate($request, [
-                'product_code' => 'required|unique:products,product_code,'.$id,
-                'product_name' => 'required',
-                'description' => 'required',
+                'product_code' => 'required',
+                'translations.*.name' => 'required',
+                'translations.*.description' => 'required',
                 'price' => 'required',
-                'brand_id' => 'required',
-                'category_id' => 'required',
+                'slug' => 'required',
             ]);
             $product = Product::findOrFail($id);
             $product->product_code = $request->input('product_code');
-            $product->product_name = $request->input('product_name');
-            $product->description = $request->input('description');
             $product->price = $request->input('price');
-            $product->brand_id = $request->input('brand_id');
-            $product->category_id = $request->input('category_id');
+            $product->brand_id = $request->brand_id;
+            $product->category_id = $request->category_id;
+            $product->slug = $request->slug;
+            $product->fill($request->translations);
             $product->save();
             return redirect()->route('products.index')->with('success', "The product <strong>$product->name</strong> has successfully been updated.");
         }
@@ -399,7 +403,4 @@ class ProductsController extends Controller
         $totalPrice = $cart->totalPrice;
         return view('site.checkout', ['totalPrice'=>$totalPrice]);
     }
-
-
-
 }

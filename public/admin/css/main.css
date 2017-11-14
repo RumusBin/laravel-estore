@@ -17,33 +17,30 @@ td:nth-child(4) {
     vertical-align: middle;
 }
 .image-inner{
-    display: flex;
-    justify-content: space-between;
+    display: block;
     padding: 1px;
-    max-height: 250px;
+    height: 230px;
 }
-
-
 
 .img-item{
-    height: 200px;
+    width: auto;
     display: inline-block;
-    padding: 1px;
+    padding: 5px;
     margin: 1px;
+    border: 1px solid grey;
 }
-li img{
-    max-width: 200px;
-    vertical-align: middle;
-
+li.img-item img{
+    max-width: 180px;
+    height: 200px;
 }
 
 .img_overlay{
     display: none;
-background: rgba(0, 0, 0, 0.4);
-width: 60px;
-height: 60px;
-z-index: 1000;
-position: absolute;
+    background: rgba(0, 0, 0, 0.4);
+    width: 60px;
+    height: 60px;
+    z-index: 1000;
+    position: absolute;
     top: 30%;
     left: 30%;
 }
@@ -76,40 +73,26 @@ position: absolute;
     height: 320px;
     position: relative;
     z-index: 1100;
-    margin-top: -350px;
-    margin-left: 450px;
+    top: -50em;
+    left: 20em;
     border-radius: 10px;
 
 }
-.form_inner .btn{
-    position: relative;
-    margin-top: 270px;
-    margin-left: 100px;
-}
-.form_inner input{
-    margin-top: 240px;
-    margin-left: 90px;
-    position: absolute;
-    z-index: 1200;
-}
+
 .img-form-keeper img{
-    width: 200px;
-    height: 200px;
     position: absolute;
-    margin-top: 10px;
-    margin-left: 50px;
+    width: 240px;
+    height: 225px;
+    top: -7em;
+    left: 2em;
 }
-.main_image{
-    display: block;
-    margin: 0 20px;
-    width: 100%;
-}
+
 .main_image img{
     width: 200px;
 }
 
 #new-img-add img{
-    width: 100px;
+    width: 70px;
 
 }
 .galleryContainer{
@@ -119,28 +102,44 @@ position: absolute;
 #img_galery{
     margin: 10px 0;
 }
-.image {
-    /*height: 170px;*/
-    object-fit: cover;
-     object-position: 0 25%;
-    width: 100%;
+thmb-image{
+    height: 180px;
+    width: 200px;
 }
 
 .langselect{
     padding-top: 16px;
 }
 
-.img-item img{
-    width: 180px;
-    margin: 0 20px;
-}
 #new-img-add{
-    position: absolute;
+    position: relative;
+    width: 70px;
+    top: -15em;
+
 }
 .form_inner .img_icon_delete{
     position: absolute;
     left: 230px;
     top: 30px;
 }
+#reload_img{
+    position: relative;
+    top: 30%;
+}
+#img_new{
+    position: relative;
+    top: 11em;
+    left: 6em;
+}
+#inp_submit{
+    position: relative;
+    top: 11em;
+    left: 6em;
+}
+.img-item-main img{
+    box-shadow: 0 0 10px rgba(255, 13, 67, 0.8);;
+}
+
+
 
 

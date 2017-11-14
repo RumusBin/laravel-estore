@@ -16,6 +16,7 @@
 Route::group(['namespace'=>'Site'], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::post('new-order', 'OrderController@newOrder')->name('new.order');
+    Route::get('/product/{slug}', 'ProductController@show')->name('site.product.show');
 //    Route::get('')->name('get.profile');
 });
 

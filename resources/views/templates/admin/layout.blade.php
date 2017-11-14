@@ -34,7 +34,6 @@
     <link href="{{asset('admin/css/main.css')}}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.1.1/min/dropzone.min.css" />
 
-
 </head>
 
 <body class="nav-md">
@@ -316,9 +315,11 @@
             TableManageButtons.init();
         });
     </script>
+
     <script src="{{asset('js/images_sc.js')}}"></script>
     <script src="{{asset('plugins/ckeditor/ckeditor.js')}}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     @yield('page_scripts')
     <!-- /Datatables -->
 </body>
